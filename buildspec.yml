@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - $(aws ecr get-login --no-include-email)
+  build:
+    commands:
+      - export IMAGE_TAG=$(git rev-parse HEAD)
+      - 'echo $IMAGE_TAG > REVISION'
+      - docker build -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:$IMAGE_TAG .
+      - docker tag $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:latest
+  post_build:
+    commands:
+      - 'aws ecr create-repository --repository-name ioi18-console || :'
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:$IMAGE_TAG
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:latest
