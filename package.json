@@ -1,5 +1,11 @@
 {
   "name": "ioi_console",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "@rails/webpacker": "3.5",
+    "admin-lte": "^2.4.8"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "2.11.2"
+  }
 }
