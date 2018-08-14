@@ -1,0 +1,63 @@
+!!! 5
+%html
+  %head
+    %meta{charset: 'utf-8'}
+    %title= yield(:title) || 'ioi-console'
+    = csrf_meta_tags
+    = csp_meta_tag
+
+    = javascript_pack_tag 'application'
+    = stylesheet_pack_tag 'application', media: 'all'
+
+  %body.sidebar-mini.skin-red
+    .wrapper
+      %header.main-header
+        %a.logo{href: '/'}
+          %span.logo-lg
+            %b IOI
+            Console
+          %span.logo-mini オ
+
+        %nav.navbar.navbar-static-top
+          %a.sidebar-toggle{href: '#', data: { toggle: 'push-menu' }, role: 'button'}
+            %span.sr-only Toggle navigation
+          .navbar-custom-menu
+            %ul.nav.navbar-nav
+              - if false#current_user
+                %li
+                  -# = link_to(sign_out_path, method: :post) do
+                  %a{href: '#'}
+                    Sign out
+                    %i.fa.fa-sign-out
+                    Sign out
+              - else
+                %li
+                  -# = link_to(sign_in_path(return_to: url_for(params.to_unsafe_h.merge(only_path: true)))) do
+                  %a{href: '#'}
+                    %i.fa.fa-sign-in
+                    Sign in
+      %aside.main-sidebar
+        %section.sidebar
+          .user-panel
+            .pull-left.image
+              %img.circle{width: 160, height: 160, src: 'https://pbs.twimg.com/profile_images/1016103253690351618/UAwTqdY-.jpg', alt: 'User Image'}
+            .pull-left.info
+              %p Waf Dayo
+          %ul.sidebar-menu
+            %li.header HEADER
+            %li.active
+              %a{href: '#'}
+                %i.fa.fa-link
+                %span Link
+            %li
+              %a{href: '#'}
+                %i.fa.fa-link
+                %span Link
+
+      .content-wrapper
+        %section.content-header= yield(:content_header)
+        %section.content= yield
+
+      %footer.main-footer
+        Powered by
+        %a{href: 'https://github.com/jcioi/ioi_console'} ioi_console
