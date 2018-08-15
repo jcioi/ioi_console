@@ -1,0 +1,14 @@
+- content_for(:content_header) { "Team Import Result" }
+
+- if @errors.empty?
+  %p No errors reported
+- else
+  %ul
+    - @errors.each do |team|
+      %li
+        %p= team.slug || team.name
+        %ul
+          - team.errors.full_messages.each do |message|
+            %li= message
+
+= link_to 'Back', teams_path, class: 'btn btn-default'

@@ -5,7 +5,12 @@ Rails.application.routes.draw do
       get '/auth/:provider/callback' => 'sessions#create'
 
       get '/' => 'dashboard#index'
-      resources :teams
+
+      resources :teams do
+        collection do
+          post :import
+        end
+      end
     end
   end
 end

@@ -1,3 +1,5 @@
+require 'csv'
+
 class Admin::TeamsController < Admin::ApplicationController
   before_action :set_team, only: [:show, :edit, :update, :destroy]
 
@@ -53,6 +55,19 @@ class Admin::TeamsController < Admin::ApplicationController
     respond_to do |format|
       format.html { redirect_to teams_url, notice: 'Team was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  # POST /teams/import
+  def import
+    csv = CSV.new(params[:csv].to_io, headers: false)
+    @errors = []
+    csv.each do |row|
+      team = Team.find_or_initialize_by(slug: row[0])
+      team.name = row[1]
+      unless team.save
+        @errors << team
+      end
     end
   end
 
