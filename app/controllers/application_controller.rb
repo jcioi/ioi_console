@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_staff
-    return redirect_to(new_session_path) unless current_user
+    return redirect_to(new_admin_session_path(return_to: url_for(params.to_unsafe_h.merge(only_path: true)))) unless current_user
     return render(status: 403, text: 'Forbidden: You need to be a staff') unless current_user.staff?
   end
 
