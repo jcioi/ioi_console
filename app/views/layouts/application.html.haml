@@ -38,10 +38,10 @@
               %p= current_user&.name
           %ul.sidebar-menu
             %li.header HEADER
-            %li.active
-              %a{href: '#'}
+            %li{class: sidebar_active_class('admin/teams')}
+              %a{href: teams_path}
                 %i.fa.fa-link
-                %span Link
+                %span Teams
             %li
               %a{href: '#'}
                 %i.fa.fa-link
@@ -49,7 +49,10 @@
 
       .content-wrapper
         %section.content-header= yield(:content_header)
-        %section.content= yield
+        %section.content
+          - if notice
+            %p#notice= notice
+          = yield
 
       %footer.main-footer
         Powered by

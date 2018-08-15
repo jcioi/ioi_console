@@ -1,0 +1,17 @@
+- content_for(:content_header) { "Teams" }
+
+= link_to 'New Team', new_team_path, class: 'btn btn-primary'
+
+%table.table.table-hover
+  %thead
+    %tr
+      %th Slug
+      %th Name
+      %th{colspan: 2}
+  %tbody
+    - @teams.each do |team|
+      %tr
+        %td= team.slug
+        %td= team.name
+        %td= link_to 'Edit', edit_team_path(team)
+        %td= link_to 'Destroy', team, method: :delete, data: {confirm: 'Are you sure?'}

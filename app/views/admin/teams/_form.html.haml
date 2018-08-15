@@ -1,0 +1,19 @@
+= form_with(model: team, local: true, class: 'form-horizontal') do |form|
+  - if team.errors.empty?
+    .form-group#error_explanation
+      %ul
+        - team.errors.full_messages.each do |message|
+          %li= message
+  .form-group
+    = form.label :slug, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = form.text_field :slug, class: 'form-control'
+
+  .form-group
+    = form.label :name, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = form.text_field :name, class: 'form-control'
+
+  .form-group
+    .col-sm-10.col-sm-offset-2
+      = form.submit(class: 'btn btn-primary')
