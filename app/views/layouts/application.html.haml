@@ -23,26 +23,19 @@
             %span.sr-only Toggle navigation
           .navbar-custom-menu
             %ul.nav.navbar-nav
-              - if false#current_user
+              - unless current_user
                 %li
-                  -# = link_to(sign_out_path, method: :post) do
-                  %a{href: '#'}
-                    Sign out
-                    %i.fa.fa-sign-out
-                    Sign out
-              - else
-                %li
-                  -# = link_to(sign_in_path(return_to: url_for(params.to_unsafe_h.merge(only_path: true)))) do
-                  %a{href: '#'}
-                    %i.fa.fa-sign-in
-                    Sign in
+                  = link_to(new_admin_session_path(proceed: 1, return_to: url_for(params.to_unsafe_h.merge(only_path: true)))) do
+                    %a{href: '#'}
+                      %i.fa.fa-sign-in
+                      Sign in
       %aside.main-sidebar
         %section.sidebar
           .user-panel
             .pull-left.image
-              %img.circle{width: 160, height: 160, src: 'https://pbs.twimg.com/profile_images/1016103253690351618/UAwTqdY-.jpg', alt: 'User Image'}
+              %img.circle{width: 160, height: 160, src: current_user&.avatar_url || 'https://pbs.twimg.com/profile_images/1016103253690351618/UAwTqdY-.jpg', alt: 'User Image'}
             .pull-left.info
-              %p Waf Dayo
+              %p= current_user&.name
           %ul.sidebar-menu
             %li.header HEADER
             %li.active
