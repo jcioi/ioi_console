@@ -1,0 +1,33 @@
+= form_with(model: person, local: true, class: 'form-horizontal') do |form|
+  - if person.errors.empty?
+    .form-group#error_explanation
+      %ul
+        - person.errors.full_messages.each do |message|
+          %li= message
+  .form-group
+    = form.label :login, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = form.text_field :login, class: 'form-control'
+  .form-group
+    = form.label :name, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = form.text_field :name, class: 'form-control', placeholder: 'Display Name'
+  .form-group
+    %label.col-sm-2.control-label Full Name
+    .col-sm-5
+      = form.text_field :first_name, class: 'form-control', placeholder: 'First'
+    .col-sm-5
+      = form.text_field :last_name, class: 'form-control', placeholder: 'Last'
+
+  .form-group
+    = form.label :avatar_url, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = form.text_field :avatar_url, class: 'form-control'
+  .form-group
+    = form.label :role, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = form.select :role, options_for_select(person.class.roles.to_a), class: 'form-control'
+
+  .form-group
+    .col-sm-10.col-sm-offset-2
+      = form.submit(class: 'btn btn-primary')

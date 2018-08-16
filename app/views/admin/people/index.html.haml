@@ -1,0 +1,33 @@
+- content_for(:content_header) { "People" }
+
+= link_to 'New Person', new_person_path, class: 'btn btn-primary'
+
+%section
+  = form_tag import_people_path, class: 'form-inline', multipart: true do
+    .form-group
+      = file_field_tag 'csv'
+    .form-group
+      = submit_tag 'Import', class: 'btn btn-default'
+  %p.small CSV without headers ()
+
+= form_tag people_path, method: 'GET', class: 'form-inline' do
+  .form-group
+    = select_tag :role, options_for_select(Person.roles.to_a, params[:role])
+  .form-group
+    = submit_tag 'Filter', class: 'btn btn-default'
+
+%table.table.table-hover
+  %thead
+    %tr
+      %th login
+      %th name
+      %th role
+      %th{colspan: 2}
+  %tbody
+    - @people.each do |person|
+      %tr
+        %td= person.login
+        %td= person.display_name
+        %td= person.role
+        %td= link_to 'Edit', edit_person_path(person)
+        %td= link_to 'Destroy', person, method: :delete, data: {confirm: 'Are you sure?'}

@@ -42,10 +42,10 @@
               %a{href: teams_path}
                 %i.fa.fa-link
                 %span Teams
-            %li
-              %a{href: '#'}
+            %li{class: sidebar_active_class('admin/people')}
+              %a{href: people_path}
                 %i.fa.fa-link
-                %span Link
+                %span People
 
       .content-wrapper
         %section.content-header= yield(:content_header)
