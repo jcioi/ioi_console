@@ -1,0 +1,14 @@
+- content_for(:content_header) { "People Import Result" }
+
+- if @errors.empty?
+  %p No errors reported
+- else
+  %ul
+    - @errors.each do |person|
+      %li
+        %p= person.login || person.name
+        %ul
+          - person.errors.full_messages.each do |message|
+            %li= message
+
+= link_to 'Back', people_path, class: 'btn btn-default'

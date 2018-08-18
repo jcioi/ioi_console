@@ -63,11 +63,13 @@ class Admin::PeopleController < Admin::ApplicationController
 
   # POST /people/import
   def import
-    csv = CSV.new(params[:csv].to_io, headers: false)
+    csv = CSV.new(params[:csv].to_io, headers: true)
     @errors = []
     csv.each do |row|
-      person = Person.find_or_initialize_by(slug: row[0])
-      person.name = row[1]
+      person = Person.find_or_initialize_by(login: row.fetch('login'))
+      %w(team role name first_name last_name).each do |key|
+        person.__send__(:"#{key}=", row[key.to_s]) if row[key.to_s]
+      end
       unless person.save
         @errors << person
       end
