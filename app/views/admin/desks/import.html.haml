@@ -1,0 +1,14 @@
+- content_for(:content_header) { "Desk Import Result" }
+
+- if @errors.empty?
+  %p No errors reported
+- else
+  %ul
+    - @errors.each do |desk|
+      %li
+        %p= desk.name
+        %ul
+          - desk.errors.full_messages.each do |message|
+            %li= message
+
+= link_to 'Back', desks_path, class: 'btn btn-default'

@@ -1,5 +1,7 @@
 class Person < ApplicationRecord
-  belongs_to :team
+  belongs_to :team, required: false
+  has_one :desk
+  has_many :assignment_histories, class_name: 'DeskAssignmentHistory'
 
   enum role: %i(staff contestant leader)
 

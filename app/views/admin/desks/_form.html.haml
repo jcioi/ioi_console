@@ -1,0 +1,19 @@
+= form_with(model: desk, local: true, class: 'form-horizontal') do |form|
+  - if desk.errors.empty?
+    .form-group#error_explanation
+      %ul
+        - desk.errors.full_messages.each do |message|
+          %li= message
+  .form-group
+    = form.label :name, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = form.text_field :name, class: 'form-control'
+
+  .form-group
+    = form.label :floor, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = form.text_field :floor, class: 'form-control'
+
+  .form-group
+    .col-sm-10.col-sm-offset-2
+      = form.submit(class: 'btn btn-primary')

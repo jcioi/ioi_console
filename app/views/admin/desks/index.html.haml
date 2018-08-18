@@ -1,0 +1,29 @@
+- content_for(:content_header) { "Desks" }
+
+= link_to 'New Desk', new_desk_path, class: 'btn btn-primary'
+
+%section
+  = form_tag import_desks_path, class: 'form-inline', multipart: true do
+    .form-group
+      = file_field_tag 'csv'
+    .form-group
+      = submit_tag 'Import', class: 'btn btn-default'
+  %p.small CSV with headers (name,[floor],[contestant])
+
+%table.table.table-hover
+  %thead
+    %tr
+      %th Floor
+      %th Name
+      %th Contestant
+      %th{colspan: 2}
+  %tbody
+    - @desks.each do |desk|
+      %tr
+        %td= desk.floor.name
+        %td= desk.name
+        %td
+          - if desk.contestant
+            #{desk.contestant.login} (#{desk.contestant.display_name})
+        %td= link_to 'Edit', edit_desk_path(desk)
+        %td= link_to 'Destroy', desk, method: :delete, data: {confirm: 'Are you sure?'}

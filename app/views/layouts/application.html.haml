@@ -46,6 +46,10 @@
               %a{href: people_path}
                 %i.fa.fa-link
                 %span People
+            %li{class: sidebar_active_class('admin/desks')}
+              %a{href: desks_path}
+                %i.fa.fa-link
+                %span Desks
 
       .content-wrapper
         %section.content-header= yield(:content_header)

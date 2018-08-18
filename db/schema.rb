@@ -10,10 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_16_001651) do
+ActiveRecord::Schema.define(version: 2018_08_18_053105) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "desk_assignment_histories", force: :cascade do |t|
+    t.bigint "desk_id"
+    t.bigint "contestant_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contestant_id"], name: "index_desk_assignment_histories_on_contestant_id"
+    t.index ["desk_id"], name: "index_desk_assignment_histories_on_desk_id"
+  end
+
+  create_table "desks", force: :cascade do |t|
+    t.string "name"
+    t.bigint "floor_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "contestant_id"
+    t.index ["contestant_id"], name: "index_desks_on_contestant_id"
+    t.index ["floor_id"], name: "index_desks_on_floor_id"
+    t.index ["name"], name: "index_desks_on_name"
+  end
+
+  create_table "floors", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_floors_on_name"
+  end
 
   create_table "people", force: :cascade do |t|
     t.string "name", null: false
@@ -38,5 +65,9 @@ ActiveRecord::Schema.define(version: 2018_08_16_001651) do
     t.index ["slug"], name: "index_teams_on_slug"
   end
 
+  add_foreign_key "desk_assignment_histories", "desks"
+  add_foreign_key "desk_assignment_histories", "people", column: "contestant_id"
+  add_foreign_key "desks", "floors"
+  add_foreign_key "desks", "people", column: "contestant_id"
   add_foreign_key "people", "teams"
 end

@@ -18,6 +18,12 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :desks do
+        collection do
+          post :import
+        end
+      end
+
     end
   end
 end
