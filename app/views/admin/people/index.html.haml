@@ -21,6 +21,7 @@
     %tr
       %th login
       %th name
+      %th team
       %th role
       %th{colspan: 2}
   %tbody
@@ -28,6 +29,7 @@
       %tr
         %td= person.login
         %td= person.display_name
+        %td= person.team&.name
         %td= person.role
         %td= link_to 'Edit', edit_person_path(person)
         %td= link_to 'Destroy', person, method: :delete, data: {confirm: 'Are you sure?'}

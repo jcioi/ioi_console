@@ -18,6 +18,10 @@
       = form.text_field :first_name, class: 'form-control', placeholder: 'First'
     .col-sm-5
       = form.text_field :last_name, class: 'form-control', placeholder: 'Last'
+  .form-group
+    = form.label :team, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = form.text_field :team, class: 'form-control', placeholder: 'Team Slug'
 
   .form-group
     = form.label :avatar_url, class: 'col-sm-2 control-label'

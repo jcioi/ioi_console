@@ -6,7 +6,7 @@ class Admin::PeopleController < Admin::ApplicationController
   # GET /people
   # GET /people.json
   def index
-    @people = Person.all
+    @people = Person.all.includes(:team)
     if params[:role].present?
       @people = @people.where(role: params[:role])
     end
