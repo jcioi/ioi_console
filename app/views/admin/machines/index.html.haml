@@ -1,0 +1,23 @@
+- content_for(:content_header) { "Machines" }
+
+= link_to 'New Machine', new_machine_path, class: 'btn btn-primary'
+
+%section
+  = form_tag import_machines_path, class: 'form-inline', multipart: true do
+    .form-group
+      = file_field_tag 'csv'
+    .form-group
+      = submit_tag 'Import', class: 'btn btn-default'
+  %p.small CSV with headers (mac)
+
+%table.table.table-hover
+  %thead
+    %tr
+      %th MAC Address
+      %th{colspan: 2}
+  %tbody
+    - @machines.each do |machine|
+      %tr
+        %td= machine.mac
+        %td= link_to 'Edit', edit_machine_path(machine)
+        %td= link_to 'Destroy', machine, method: :delete, data: {confirm: 'Are you sure?'}

@@ -1,0 +1,14 @@
+- content_for(:content_header) { "Machine Import Result" }
+
+- if @errors.empty?
+  %p No errors reported
+- else
+  %ul
+    - @errors.each do |machine|
+      %li
+        %p= machine.name
+        %ul
+          - machine.errors.full_messages.each do |message|
+            %li= message
+
+= link_to 'Back', machines_path, class: 'btn btn-default'

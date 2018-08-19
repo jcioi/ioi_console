@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_18_053105) do
+ActiveRecord::Schema.define(version: 2018_08_19_060651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,8 +30,10 @@ ActiveRecord::Schema.define(version: 2018_08_18_053105) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "contestant_id"
+    t.bigint "machine_id"
     t.index ["contestant_id"], name: "index_desks_on_contestant_id"
     t.index ["floor_id"], name: "index_desks_on_floor_id"
+    t.index ["machine_id"], name: "index_desks_on_machine_id"
     t.index ["name"], name: "index_desks_on_name"
   end
 
@@ -40,6 +42,14 @@ ActiveRecord::Schema.define(version: 2018_08_18_053105) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_floors_on_name"
+  end
+
+  create_table "machines", force: :cascade do |t|
+    t.string "mac"
+    t.integer "role"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["mac"], name: "index_machines_on_mac"
   end
 
   create_table "people", force: :cascade do |t|
@@ -68,6 +78,7 @@ ActiveRecord::Schema.define(version: 2018_08_18_053105) do
   add_foreign_key "desk_assignment_histories", "desks"
   add_foreign_key "desk_assignment_histories", "people", column: "contestant_id"
   add_foreign_key "desks", "floors"
+  add_foreign_key "desks", "machines"
   add_foreign_key "desks", "people", column: "contestant_id"
   add_foreign_key "people", "teams"
 end

@@ -1,0 +1,15 @@
+= form_with(model: machine, local: true, class: 'form-horizontal') do |form|
+  - if machine.errors.empty?
+    .form-group#error_explanation
+      %ul
+        - machine.errors.full_messages.each do |message|
+          %li= message
+
+  .form-group
+    = form.label :mac, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = form.text_field :mac, class: 'form-control'
+
+  .form-group
+    .col-sm-10.col-sm-offset-2
+      = form.submit(class: 'btn btn-primary')

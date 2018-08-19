@@ -50,6 +50,10 @@
               %a{href: desks_path}
                 %i.fa.fa-link
                 %span Desks
+            %li{class: sidebar_active_class('admin/machines')}
+              %a{href: machines_path}
+                %i.fa.fa-link
+                %span Machines
 
       .content-wrapper
         %section.content-header= yield(:content_header)

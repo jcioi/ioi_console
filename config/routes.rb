@@ -24,6 +24,12 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :machines do
+        collection do
+          post :import
+        end
+      end
+
     end
   end
 end

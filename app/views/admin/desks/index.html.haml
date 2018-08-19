@@ -15,6 +15,7 @@
     %tr
       %th Floor
       %th Name
+      %th Machine
       %th Contestant
       %th{colspan: 2}
   %tbody
@@ -22,6 +23,7 @@
       %tr
         %td= desk.floor.name
         %td= desk.name
+        %td= desk.machine&.mac
         %td
           - if desk.contestant
             #{desk.contestant.login} (#{desk.contestant.display_name})

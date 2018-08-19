@@ -6,7 +6,7 @@ class Admin::DesksController < Admin::ApplicationController
   # GET /desks
   # GET /desks.json
   def index
-    @desks = Desk.all.includes(:floor).includes(:contestant).order(name: :asc)
+    @desks = Desk.all.includes(:floor).includes(:contestant).includes(:machine).order(name: :asc)
   end
 
   # GET /desks/new
