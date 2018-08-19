@@ -21,7 +21,7 @@
   .form-group
     = form.label :team, class: 'col-sm-2 control-label'
     .col-sm-10
-      = form.text_field :team, class: 'form-control', placeholder: 'Team Slug'
+      = form.text_field :team, value: person.team ? person.team.slug : nil, class: 'form-control', placeholder: 'Team Slug'
 
   .form-group
     = form.label :avatar_url, class: 'col-sm-2 control-label'
@@ -30,7 +30,7 @@
   .form-group
     = form.label :role, class: 'col-sm-2 control-label'
     .col-sm-10
-      = form.select :role, options_for_select(person.class.roles.to_a), class: 'form-control'
+      = form.select :role, options_for_select(person.class.roles.keys, person.role), class: 'form-control'
 
   .form-group
     .col-sm-10.col-sm-offset-2
