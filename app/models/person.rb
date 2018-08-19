@@ -2,6 +2,7 @@ class Person < ApplicationRecord
   belongs_to :team, required: false
   has_one :desk
   has_many :assignment_histories, class_name: 'DeskAssignmentHistory'
+  has_many :passwords
 
   enum role: %i(staff contestant leader)
 
@@ -26,5 +27,9 @@ class Person < ApplicationRecord
     when first_name && last_name
       "#{first_name} #{last_name}"
     end
+  end
+
+  def password_attempt(value)
+    self.passwords.in_use.any? { |_| _.attempt(value) }
   end
 end

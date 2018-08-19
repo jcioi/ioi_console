@@ -1,0 +1,14 @@
+- content_for(:content_header) { "PasswordTier Import Result" }
+
+- if @errors.empty?
+  %p No errors reported
+- else
+  %ul
+    - @errors.each do |password_tier|
+      %li
+        %p= password_tier.name
+        %ul
+          - password_tier.errors.full_messages.each do |message|
+            %li= message
+
+= link_to 'Back', password_tiers_path, class: 'btn btn-default'

@@ -1,0 +1,21 @@
+- content_for(:content_header) { "Passwords" }
+
+= form_tag generate_password_tier_passwords_path(@password_tier), class: 'form-inline' do
+  .form-group
+    = select_tag :role, options_for_select(Person.roles.to_a, params[:role])
+  .form-group
+    = check_box_tag :overwrite, class: 'form-control'
+    = label_tag :overwrite, 'Overwrite', class: 'control-label'
+  .form-group
+    = submit_tag 'Generate', class: 'btn btn-primary'
+
+%table.table.table-hover
+  %thead
+    %tr
+      %th Person
+      %th{colspan: 2}
+  %tbody
+    - @passwords.each do |password|
+      %tr
+        %td= password.person.login
+        %td= password.plaintext_password

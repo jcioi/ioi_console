@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_19_060651) do
+ActiveRecord::Schema.define(version: 2018_08_19_081821) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,23 @@ ActiveRecord::Schema.define(version: 2018_08_19_060651) do
     t.index ["mac"], name: "index_machines_on_mac"
   end
 
+  create_table "password_tiers", force: :cascade do |t|
+    t.string "description"
+    t.datetime "not_before"
+    t.datetime "not_after"
+  end
+
+  create_table "passwords", force: :cascade do |t|
+    t.bigint "person_id"
+    t.bigint "password_tier_id"
+    t.string "plaintext_password"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["password_tier_id"], name: "index_passwords_on_password_tier_id"
+    t.index ["person_id", "password_tier_id"], name: "index_passwords_on_person_id_and_password_tier_id", unique: true
+    t.index ["person_id"], name: "index_passwords_on_person_id"
+  end
+
   create_table "people", force: :cascade do |t|
     t.string "name", null: false
     t.string "login", null: false
@@ -80,5 +97,7 @@ ActiveRecord::Schema.define(version: 2018_08_19_060651) do
   add_foreign_key "desks", "floors"
   add_foreign_key "desks", "machines"
   add_foreign_key "desks", "people", column: "contestant_id"
+  add_foreign_key "passwords", "password_tiers"
+  add_foreign_key "passwords", "people"
   add_foreign_key "people", "teams"
 end

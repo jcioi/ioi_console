@@ -30,6 +30,13 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :password_tiers do
+        resources :passwords, only: %i(index) do
+          collection do
+            post :generate
+          end
+        end
+      end
     end
   end
 end

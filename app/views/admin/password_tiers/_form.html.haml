@@ -1,0 +1,24 @@
+= form_with(model: password_tier, local: true, class: 'form-horizontal') do |form|
+  - if password_tier.errors.empty?
+    .form-group#error_explanation
+      %ul
+        - password_tier.errors.full_messages.each do |message|
+          %li= message
+  .form-group
+    = form.label :Description, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = form.text_field :description, class: 'form-control'
+
+  .form-group
+    = form.label :not_before, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = form.datetime_local_field :not_before, class: 'form-control'
+  .form-group
+    = form.label :not_after, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = form.datetime_local_field :not_after, class: 'form-control'
+
+
+  .form-group
+    .col-sm-10.col-sm-offset-2
+      = form.submit(class: 'btn btn-primary')

@@ -54,7 +54,10 @@
               %a{href: machines_path}
                 %i.fa.fa-link
                 %span Machines
-
+            %li{class: sidebar_active_class('admin/password_tiers')}
+              %a{href: password_tiers_path}
+                %i.fa.fa-link
+                %span Password Tiers
       .content-wrapper
         %section.content-header= yield(:content_header)
         %section.content
