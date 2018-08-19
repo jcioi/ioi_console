@@ -1,0 +1,17 @@
+- content_for(:content_header) { "Contests" }
+
+= link_to 'New Contest', new_contest_path, class: 'btn btn-primary'
+
+%table.table.table-hover
+  %thead
+    %tr
+      %th Name
+      %th CMS ID
+      %th{colspan: 2}
+  %tbody
+    - @contests.each do |contest|
+      %tr
+        %td= contest.name
+        %td= contest.cms_contest_id
+        %td= link_to 'Edit', edit_contest_path(contest)
+        %td= link_to 'Destroy', contest, method: :delete, data: {confirm: 'Are you sure?'}

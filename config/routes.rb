@@ -37,6 +37,10 @@ Rails.application.routes.draw do
           end
         end
       end
+
+      resources :contests do
+      end
+
     end
   end
 end

@@ -58,6 +58,11 @@
               %a{href: password_tiers_path}
                 %i.fa.fa-link
                 %span Password Tiers
+            %li{class: sidebar_active_class('admin/contests')}
+              %a{href: contests_path}
+                %i.fa.fa-link
+                %span Contests
+
       .content-wrapper
         %section.content-header= yield(:content_header)
         %section.content
