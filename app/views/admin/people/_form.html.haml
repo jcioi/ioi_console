@@ -33,5 +33,10 @@
       = form.select :role, options_for_select(person.class.roles.keys, person.role), class: 'form-control'
 
   .form-group
+    = form.label :special_requirement_note, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = form.text_area :special_requirement_note, class: 'form-control'
+
+  .form-group
     .col-sm-10.col-sm-offset-2
       = form.submit(class: 'btn btn-primary')

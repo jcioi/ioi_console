@@ -23,6 +23,7 @@
       %th name
       %th team
       %th role
+      %th note?
       %th{colspan: 2}
   %tbody
     - @people.each do |person|
@@ -31,5 +32,8 @@
         %td= person.display_name
         %td= person.team&.name
         %td= person.role
+        %td
+          - if person.special_requirement_note.present?
+            Y
         %td= link_to 'Edit', edit_person_path(person)
         %td= link_to 'Destroy', person, method: :delete, data: {confirm: 'Are you sure?'}
