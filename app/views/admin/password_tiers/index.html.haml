@@ -6,6 +6,7 @@
   %thead
     %tr
       %th Description
+      %th Contest
       %th Not Before
       %th Not After
       %th{colspan: 2}
@@ -13,6 +14,9 @@
     - @password_tiers.each do |password_tier|
       %tr
         %td= link_to password_tier.description, password_tier_passwords_path(password_tier)
+        %td
+          - if password_tier.contest
+            = password_tier.contest.name
         %td= password_tier.not_before
         %td= password_tier.not_after
         %td= link_to 'Edit', edit_password_tier_path(password_tier)

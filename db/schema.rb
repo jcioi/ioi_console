@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_19_093408) do
+ActiveRecord::Schema.define(version: 2018_08_19_100544) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,8 @@ ActiveRecord::Schema.define(version: 2018_08_19_093408) do
     t.string "description"
     t.datetime "not_before"
     t.datetime "not_after"
+    t.bigint "contest_id"
+    t.index ["contest_id"], name: "index_password_tiers_on_contest_id"
   end
 
   create_table "passwords", force: :cascade do |t|
@@ -104,6 +106,7 @@ ActiveRecord::Schema.define(version: 2018_08_19_093408) do
   add_foreign_key "desks", "floors"
   add_foreign_key "desks", "machines"
   add_foreign_key "desks", "people", column: "contestant_id"
+  add_foreign_key "password_tiers", "contests"
   add_foreign_key "passwords", "password_tiers"
   add_foreign_key "passwords", "people"
   add_foreign_key "people", "teams"

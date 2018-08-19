@@ -6,7 +6,7 @@ class Admin::PasswordTiersController < Admin::ApplicationController
   # GET /password_tiers
   # GET /password_tiers.json
   def index
-    @password_tiers = PasswordTier.all
+    @password_tiers = PasswordTier.all.includes(:contest)
   end
 
   # GET /password_tiers/new
@@ -66,6 +66,6 @@ class Admin::PasswordTiersController < Admin::ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def password_tier_params
-      params.require(:password_tier).permit(:description, :not_before, :not_after)
+      params.require(:password_tier).permit(:description, :not_before, :not_after, :contest_id)
     end
 end

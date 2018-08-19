@@ -1,4 +1,5 @@
 class PasswordTier < ApplicationRecord
+  belongs_to :contest, required: false
   has_many :passwords, dependent: :destroy
 
   scope :active, ->(t = Time.now) { where('(not_before < ? OR not_before IS NULL) AND (? < not_after OR not_after IS NULL)', t, t) }
