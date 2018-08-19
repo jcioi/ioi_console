@@ -64,7 +64,7 @@ class Admin::DesksController < Admin::ApplicationController
     @errors = []
     csv.each do |row|
       desk = Desk.find_or_initialize_by(name: row.fetch('name'))
-      %w(floor contestant).each do |key|
+      %w(floor contestant machine).each do |key|
         next unless row.key?(key.to_s)
         value = if row[key.to_s].present?
           row[key.to_s]

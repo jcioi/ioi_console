@@ -28,6 +28,16 @@ class Desk < ApplicationRecord
     association(:contestant).writer(floor)
   end
 
+  def machine=(value)
+    machine = case value
+    when String
+      Machine.find_or_create_by!(mac: value)
+    else
+      value
+    end
+    association(:machine).writer(machine)
+  end
+
   def floor=(value)
     floor = case value
     when String
