@@ -2,6 +2,8 @@ FROM ubuntu:18.04
 
 ARG RUBY_VERSION=2.5
 ARG RUBY_PACKAGE_VERSION=2.5.1-1ubuntu1
+
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
   apt-get install -y \
   git-core \
@@ -11,7 +13,9 @@ RUN apt-get update && \
   ruby${RUBY_VERSION}-dev=${RUBY_PACKAGE_VERSION} \
   libxml2-dev libxslt-dev zlib1g-dev ruby-bundler \
   libpq-dev \
-  nodejs
+  nodejs \
+  tzdata
+
 RUN update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10
 
 RUN mkdir -p /app /app/tmp
