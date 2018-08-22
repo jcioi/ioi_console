@@ -10,7 +10,7 @@ phases:
     commands:
       - export IMAGE_TAG=$(git rev-parse HEAD)
       - 'echo $IMAGE_TAG > REVISION'
-      - docker build -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:$IMAGE_TAG .
+      - docker build --cache-from $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:latest -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:$IMAGE_TAG .
       - docker tag $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:latest
   post_build:
     commands:
