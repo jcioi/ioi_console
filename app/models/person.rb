@@ -30,6 +30,6 @@ class Person < ApplicationRecord
   end
 
   def password_attempt(value)
-    self.passwords.in_use.any? { |_| _.attempt(value) }
+    self.passwords.in_use.find { |_| _.attempt(value) }
   end
 end

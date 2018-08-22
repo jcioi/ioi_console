@@ -1,0 +1,8 @@
+= form_tag sessions_path do
+  .col-sm-4.col-sm-offset-4
+    .form-group
+      = text_field_tag :login, '', placeholder: 'Login ID', class: 'form-control'
+    .form-group
+      = password_field_tag :password, '', placeholder: 'Password', class: 'form-control'
+    .form-group
+      = submit_tag 'Log in', class: 'form-control btn btn-primary'
