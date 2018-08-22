@@ -4,7 +4,7 @@ phases:
   pre_build:
     commands:
       - $(aws ecr get-login --no-include-email)
-      - 'apt-get install -y rsync && gunzip -c /usr/share/doc/rsync/scripts/git-set-file-times.gz > /usr/bin/git-set-file-times && chmod +x /usr/bin/git-set-file-times && /usr/bin/git-set-file-times'
+      - 'apt-get update && apt-get install -y rsync && gunzip -c /usr/share/doc/rsync/scripts/git-set-file-times.gz > /usr/bin/git-set-file-times && chmod +x /usr/bin/git-set-file-times && /usr/bin/git-set-file-times'
       - 'docker pull $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:latest || :'
   build:
     commands:
