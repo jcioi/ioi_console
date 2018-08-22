@@ -20,6 +20,8 @@ gem 'addressable'
 
 gem 'revision_plate'
 
+gem 'sentry-raven'
+
 # gem 'redis', '~> 4.0'
 
 # gem 'bootsnap', '>= 1.1.0', require: false
