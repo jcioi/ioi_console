@@ -3,7 +3,8 @@
   "private": true,
   "dependencies": {
     "@rails/webpacker": "3.5",
-    "admin-lte": "^2.4.8"
+    "admin-lte": "^2.4.8",
+    "rails-ujs": "^5.2.1"
   },
   "devDependencies": {
     "webpack-dev-server": "2.11.2"
