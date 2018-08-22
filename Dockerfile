@@ -17,7 +17,10 @@ COPY . /app/
 
 WORKDIR /app
 RUN bundle install -j4 --deployment --without 'development test'
-RUN bundle exec rails assets:precompile
-RUN bundle exec rails webpacker:compile
+RUN env GITHUB_CLIENT_ID=dummy GITHUB_CLIENT_SECRET=dummy bundle exec rails assets:precompile
+RUN env GITHUB_CLIENT_ID=dummy GITHUB_CLIENT_SECRET=dummy bundle exec rails webpacker:compile
+
+ENV RAILS_SERVE_STATIC_FILES=1
+ENV RAILS_LOG_TO_STDOUT=1
 
 CMD ["bundle", "exec", "puma", "-t", "2:16", "-w", "3", "-p", "8080"]
