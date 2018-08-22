@@ -36,7 +36,7 @@ RUN cp -a /tmp/.bundle /app/.bundle
 
 ENV BUILD=1
 RUN env GITHUB_CLIENT_ID=dummy GITHUB_CLIENT_SECRET=dummy bundle exec rails assets:precompile
-RUN env GITHUB_CLIENT_ID=dummy GITHUB_CLIENT_SECRET=dummy bundle exec rails webpacker:compile
+#RUN env GITHUB_CLIENT_ID=dummy GITHUB_CLIENT_SECRET=dummy bundle exec rails webpacker:compile
 
 ENV RAILS_SERVE_STATIC_FILES=1
 ENV RAILS_LOG_TO_STDOUT=1
