@@ -4,9 +4,10 @@ class ApplicationController < ActionController::Base
     if session[:person_id]
       @current_user = Person.find_by(id: session[:person_id])
       password = Password.find_by(id: session[:password_id]) if session[:password_id]
-      if !@current_user || (session[:password_id] ? !password : false)
+      if !@current_user || (session[:password_id] ? password&.in_use? : false)
         session.delete(:person_id)
         session.delete(:password_id)
+        @current_user = nil
       end
     end
     @current_user
