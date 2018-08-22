@@ -13,10 +13,11 @@ RUN apt-get update && \
   ruby${RUBY_VERSION}-dev=${RUBY_PACKAGE_VERSION} \
   libxml2-dev libxslt-dev zlib1g-dev ruby-bundler \
   libpq-dev \
-  nodejs \
+  nodejs npm \
   tzdata
 
 RUN update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10
+RUN npm install -g yarn
 
 RUN mkdir -p /app /app/tmp
 
