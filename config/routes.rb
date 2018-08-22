@@ -51,5 +51,6 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/site/sha' => RevisionPlate::App.new(File.join(__dir__, '..', 'REVISION'))
   resources :sessions, only: %i(new create destroy)
 end

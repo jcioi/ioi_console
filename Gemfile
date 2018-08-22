@@ -18,6 +18,8 @@ gem 'octokit'
 
 gem 'addressable'
 
+gem 'revision_plate'
+
 # gem 'redis', '~> 4.0'
 
 # gem 'bootsnap', '>= 1.1.0', require: false
