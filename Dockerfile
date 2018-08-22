@@ -19,12 +19,20 @@ RUN apt-get update && \
 RUN update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10
 RUN npm install -g yarn
 
+COPY Gemfile* /tmp/
+WORKDIR /tmp
+RUN bundle install -j300 --deployment --without 'development test' --path /gems
+
 RUN mkdir -p /app /app/tmp
 
 COPY . /app/
+RUN cp -a /tmp/.bundle /app/.bundle
 
 WORKDIR /app
-RUN bundle install -j4 --deployment --without 'development test'
+ENV NODE_ENV=production
+RUN yarn install
+
+ENV BUILD=1
 RUN env GITHUB_CLIENT_ID=dummy GITHUB_CLIENT_SECRET=dummy bundle exec rails assets:precompile
 RUN env GITHUB_CLIENT_ID=dummy GITHUB_CLIENT_SECRET=dummy bundle exec rails webpacker:compile
 
