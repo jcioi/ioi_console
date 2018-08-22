@@ -15,7 +15,7 @@
         %a.logo{href: '/'}
           %span.logo-lg
             %b IOI
-            Console
+            Admin
           %span.logo-mini オ
 
         %nav.navbar.navbar-static-top
@@ -26,9 +26,8 @@
               - unless current_user
                 %li
                   = link_to(new_admin_session_path(proceed: 1, return_to: params[:return_to] || url_for(params.to_unsafe_h.merge(only_path: true)))) do
-                    %a{href: '#'}
-                      %i.fa.fa-sign-in
-                      Sign in
+                    %i.fa.fa-sign-in
+                    Sign in
       %aside.main-sidebar
         %section.sidebar
           .user-panel
