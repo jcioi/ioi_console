@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_19_101632) do
+ActiveRecord::Schema.define(version: 2018_08_22_161455) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,8 +27,10 @@ ActiveRecord::Schema.define(version: 2018_08_19_101632) do
     t.bigint "contestant_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "machine_id"
     t.index ["contestant_id"], name: "index_desk_assignment_histories_on_contestant_id"
     t.index ["desk_id"], name: "index_desk_assignment_histories_on_desk_id"
+    t.index ["machine_id"], name: "index_desk_assignment_histories_on_machine_id"
   end
 
   create_table "desks", force: :cascade do |t|
@@ -103,6 +105,7 @@ ActiveRecord::Schema.define(version: 2018_08_19_101632) do
   end
 
   add_foreign_key "desk_assignment_histories", "desks"
+  add_foreign_key "desk_assignment_histories", "machines"
   add_foreign_key "desk_assignment_histories", "people", column: "contestant_id"
   add_foreign_key "desks", "floors"
   add_foreign_key "desks", "machines"
