@@ -10,6 +10,7 @@ RUN apt-get update && \
   libruby${RUBY_VERSION}=${RUBY_PACKAGE_VERSION} \
   ruby${RUBY_VERSION}-dev=${RUBY_PACKAGE_VERSION} \
   libxml2-dev libxslt-dev zlib1g-dev ruby-bundler \
+  libpq-dev \
   nodejs
 RUN update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10
 
