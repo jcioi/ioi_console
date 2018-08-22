@@ -10,20 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_22_161455) do
+ActiveRecord::Schema.define(version: 2018_08_22_174829) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "contests", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.string "cms_contest_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "desk_assignment_histories", force: :cascade do |t|
-    t.bigint "desk_id"
+    t.bigint "desk_id", null: false
     t.bigint "contestant_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -34,8 +34,8 @@ ActiveRecord::Schema.define(version: 2018_08_22_161455) do
   end
 
   create_table "desks", force: :cascade do |t|
-    t.string "name"
-    t.bigint "floor_id"
+    t.string "name", null: false
+    t.bigint "floor_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "contestant_id"
@@ -47,18 +47,18 @@ ActiveRecord::Schema.define(version: 2018_08_22_161455) do
   end
 
   create_table "floors", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_floors_on_name"
+    t.index ["name"], name: "index_floors_on_name2", unique: true
   end
 
   create_table "machines", force: :cascade do |t|
-    t.string "mac"
+    t.string "mac", null: false
     t.integer "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["mac"], name: "index_machines_on_mac"
+    t.index ["mac"], name: "index_machines_on_mac2", unique: true
   end
 
   create_table "password_tiers", force: :cascade do |t|
@@ -66,17 +66,17 @@ ActiveRecord::Schema.define(version: 2018_08_22_161455) do
     t.datetime "not_before"
     t.datetime "not_after"
     t.bigint "contest_id"
-    t.index ["contest_id"], name: "index_password_tiers_on_contest_id"
+    t.index ["contest_id"], name: "index_password_tiers_on_contest_id2", unique: true
   end
 
   create_table "passwords", force: :cascade do |t|
-    t.bigint "person_id"
-    t.bigint "password_tier_id"
-    t.string "plaintext_password"
+    t.bigint "person_id", null: false
+    t.bigint "password_tier_id", null: false
+    t.string "plaintext_password", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["password_tier_id"], name: "index_passwords_on_password_tier_id"
-    t.index ["person_id", "password_tier_id"], name: "index_passwords_on_person_id_and_password_tier_id", unique: true
+    t.index ["person_id", "password_tier_id"], name: "index_passwords_on_person_id_and_password_tier_id2", unique: true
     t.index ["person_id"], name: "index_passwords_on_person_id"
   end
 
@@ -91,17 +91,17 @@ ActiveRecord::Schema.define(version: 2018_08_22_161455) do
     t.string "last_name"
     t.bigint "team_id"
     t.text "special_requirement_note"
-    t.index ["login"], name: "index_people_on_login"
+    t.index ["login"], name: "index_people_on_login2", unique: true
     t.index ["role"], name: "index_people_on_role"
     t.index ["team_id"], name: "index_people_on_team_id"
   end
 
   create_table "teams", force: :cascade do |t|
-    t.string "slug"
-    t.string "name"
+    t.string "slug", null: false
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["slug"], name: "index_teams_on_slug"
+    t.index ["slug"], name: "index_teams_on_slug2", unique: true
   end
 
   add_foreign_key "desk_assignment_histories", "desks"
