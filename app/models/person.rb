@@ -1,8 +1,8 @@
 class Person < ApplicationRecord
   belongs_to :team, required: false
-  has_one :desk
-  has_many :assignment_histories, class_name: 'DeskAssignmentHistory'
-  has_many :passwords
+  has_one :desk, dependent: :nullify, foreign_key: :contestant_id
+  has_many :assignment_histories, class_name: 'DeskAssignmentHistory', dependent: :nullify, foreign_key: :contestant_id
+  has_many :passwords, dependent: :destroy
 
   enum role: %i(staff contestant leader)
 

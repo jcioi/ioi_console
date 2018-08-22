@@ -1,6 +1,6 @@
 class Machine < ApplicationRecord
-  has_one :desk
-  has_many :assignment_histories, class_name: 'DeskAssignmentHistory'
+  has_one :desk, dependent: :nullify
+  has_many :assignment_histories, class_name: 'DeskAssignmentHistory', dependent: :nullify
 
   validates :mac, presence: true
 
