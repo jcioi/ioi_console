@@ -46,12 +46,13 @@
                 %span Contestants
 
       .content-wrapper
-        %section.content-header= yield(:content_header)
+        %section.content-header
+          %h1= yield(:content_header)
         %section.content
           - if notice
-            %p#notice= notice
+            %div.alert.alert-success#notice{role: 'alert'}= notice
           - if flash[:error]
-            %p#error= flash[:error]
+            %div.alert.alert-error#error{role: 'alert'}= flash[:error]
 
           = yield
 
