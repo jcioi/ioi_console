@@ -1,9 +1,24 @@
+require 'csv'
+
 class Admin::PasswordsController < Admin::ApplicationController
   before_action :set_password_tier
 
   def index
-    @passwords = Password.where(password_tier: @password_tier).joins(:person).order('people.login ASC')
+    @passwords = Password.where(password_tier: @password_tier).includes(person: :team).order('people.login ASC')
     @passwords = @passwords.where(person: {role: params[:role]}) if params[:role].present?
+
+    respond_to do |format|
+      format.html { render :index }
+      format.csv do
+        csv = CSV.generate do |c|
+          c << %w(team role login name password)
+          @passwords.each do |password|
+            c << [password.person.team.name, password.person.role, password.person.login, password.person.display_name, password.plaintext_password]
+          end
+        end
+        render plain: csv
+      end
+    end
   end
 
   def generate
