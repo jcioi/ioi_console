@@ -11,9 +11,9 @@ class Admin::PasswordsController < Admin::ApplicationController
       format.html { render :index }
       format.csv do
         csv = CSV.generate do |c|
-          c << %w(team role login name password)
+          c << %w(team_slug team_name role login name password)
           @passwords.each do |password|
-            c << [password.person.team.name, password.person.role, password.person.login, password.person.display_name, password.plaintext_password]
+            c << [password.person&.team&.slug, password.person&.team&.name, password.person.role, password.person.login, password.person.display_name, password.plaintext_password]
           end
         end
         render plain: csv
