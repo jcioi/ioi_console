@@ -9,7 +9,9 @@ RUN apt-get update && \
   ruby${RUBY_VERSION}=${RUBY_PACKAGE_VERSION} \
   libruby${RUBY_VERSION}=${RUBY_PACKAGE_VERSION} \
   ruby${RUBY_VERSION}-dev=${RUBY_PACKAGE_VERSION} \
-  libxml2-dev libxslt-dev zlib1g-dev ruby-bundler
+  libxml2-dev libxslt-dev zlib1g-dev ruby-bundler \
+  nodejs
+RUN update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10
 
 RUN mkdir -p /app /app/tmp
 
