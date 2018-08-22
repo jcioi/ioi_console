@@ -23,14 +23,16 @@ COPY Gemfile* /tmp/
 WORKDIR /tmp
 RUN bundle install -j300 --deployment --without 'development test' --path /gems
 
+WORKDIR /app
+COPY package.json /app/
+COPY yarn.lock /app/
+ENV NODE_ENV=production
+RUN yarn install
+
 RUN mkdir -p /app /app/tmp
 
 COPY . /app/
 RUN cp -a /tmp/.bundle /app/.bundle
-
-WORKDIR /app
-ENV NODE_ENV=production
-RUN yarn install
 
 ENV BUILD=1
 RUN env GITHUB_CLIENT_ID=dummy GITHUB_CLIENT_SECRET=dummy bundle exec rails assets:precompile
