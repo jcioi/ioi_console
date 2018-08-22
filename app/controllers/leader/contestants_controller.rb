@@ -2,7 +2,7 @@ class Leader::ContestantsController < Leader::ApplicationController
   before_action :set_person, only: [:edit, :update]
 
   def index
-    @people = Person.all.joins(:team).where(team: current_user.team, role: :contestant).order(login: :asc)
+    @people = Person.all.includes(:team).where(team: current_user.team, role: :contestant).order(login: :asc)
   end
 
   # GET /people/1/edit
