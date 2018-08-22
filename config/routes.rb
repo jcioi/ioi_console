@@ -44,5 +44,12 @@ Rails.application.routes.draw do
     end
   end
 
+  constraints subdomain: 'leader' do
+    scope module: 'leader' do
+      get '/', to: redirect('/contestants')
+      resources :contestants, only: %i(index edit update)
+    end
+  end
+
   resources :sessions, only: %i(new create destroy)
 end

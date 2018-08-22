@@ -1,0 +1,23 @@
+- content_for(:content_header) { "Contestants" }
+
+%p The following contestants are registered in your delegation.
+%p Follow the "Edit" link to submit special needs explanation.
+
+%table.table.table-hover
+  %thead
+    %tr
+      %th login
+      %th name
+      %th team
+      %th special needs given?
+      %th
+  %tbody
+    - @people.each do |person|
+      %tr
+        %td= person.login
+        %td= person.display_name
+        %td= person.team.name
+        %td
+          - if person.special_requirement_note.present?
+            Y
+        %td= link_to 'Edit', edit_contestant_path(person)

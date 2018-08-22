@@ -1,0 +1,59 @@
+!!! 5
+%html
+  %head
+    %meta{charset: 'utf-8'}
+    %title= yield(:title) || 'ioi-console'
+    = csrf_meta_tags
+    = csp_meta_tag
+
+    = javascript_pack_tag 'application'
+    = stylesheet_pack_tag 'application', media: 'all'
+
+  %body.sidebar-mini.skin-red
+    .wrapper
+      %header.main-header
+        %a.logo{href: '/'}
+          %span.logo-lg
+            %b IOI
+            Leaders
+          %span.logo-mini 長
+
+        %nav.navbar.navbar-static-top
+          %a.sidebar-toggle{href: '#', data: { toggle: 'push-menu' }, role: 'button'}
+            %span.sr-only Toggle navigation
+          .navbar-custom-menu
+            %ul.nav.navbar-nav
+              - unless current_user
+                %li
+                  = link_to(new_session_path(return_to: params[:return_to] || url_for(params.to_unsafe_h.merge(only_path: true)))) do
+                    %i.fa.fa-sign-in
+                    Sign in
+      %aside.main-sidebar
+        %section.sidebar
+          .user-panel
+            .pull-left.image
+              - if current_user&.avatar_url.present?
+                %img.circle{width: 160, height: 160, src: current_user&.avatar_url, alt: 'User Image'}
+              - else
+                %div{style: 'width: 45px; height: 45px;'}
+            .pull-left.info
+              %p= current_user&.name
+          %ul.sidebar-menu
+            %li.header HEADER
+            %li{class: sidebar_active_class('leader/contestants')}
+              %a{href: contestants_path}
+                %i.fa.fa-link
+                %span Contestants
+
+      .content-wrapper
+        %section.content-header= yield(:content_header)
+        %section.content
+          - if notice
+            %p#notice= notice
+          - if flash[:error]
+            %p#error= flash[:error]
+
+          = yield
+
+      %footer.main-footer
+        Contact: ioi2018-htc@googlegroups.com
