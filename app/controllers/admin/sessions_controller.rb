@@ -58,7 +58,7 @@ class Admin::SessionsController < ApplicationController
     )
 
     STAFF_GH_TEAMS.each do |team_id|
-      if octo.team_membership(team_id, login)
+      if octo.team_membership(team_id, login, :accept => "application/vnd.github.hellcat-preview+json")
         return true
       end
     rescue Octokit::NotFound
