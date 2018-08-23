@@ -31,7 +31,7 @@ class Admin::SessionsController < ApplicationController
       end
 
       person = Person.create_with(
-        name: auth.fetch('info').fetch('name'),
+        name: auth.fetch('info').fetch('name') || auth.fetch('info').fetch('nickname'),
         avatar_url: auth.fetch('info').fetch('image'),
       ).find_or_create_by!(
         login: auth.fetch('info').fetch('nickname'),
