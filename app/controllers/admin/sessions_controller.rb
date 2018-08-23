@@ -24,7 +24,7 @@ class Admin::SessionsController < ApplicationController
       case
       when ENV['GITHUB_ACCESS_TOKEN']
         unless staff_member?(auth.fetch('info').fetch('nickname'))
-          return render(status: 403, text: "Forbidden (You have to be in any of these teams: #{STAFF_GH_TEAMS.join(', ')}")
+          return render(status: 403, plain: "Forbidden (You have to be in any of these teams: #{STAFF_GH_TEAMS.join(', ')}")
         end
       when Rails.env.production?
         raise "$GITHUB_ACCESS_TOKEN is missing"
