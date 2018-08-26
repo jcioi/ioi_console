@@ -24,16 +24,33 @@ RUN apt-get update && \
   libpq-dev \
   tzdata
 
+RUN mkdir -p /tmp /app
 COPY Gemfile* /tmp/
 WORKDIR /tmp
 RUN bundle install -j300 --deployment --without 'development test' --path /gems
-
-WORKDIR /app
-RUN mkdir -p /app /app/tmp
-
-COPY . /app/
 RUN cp -a /tmp/.bundle /app/.bundle
 
+FROM ubuntu:18.04
+ARG RUBY_VERSION=2.5
+ARG RUBY_PACKAGE_VERSION=2.5.1-1ubuntu1
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && \
+  apt-get install -y \
+  git-core \
+  ruby=1:2.5.1 \
+  ruby${RUBY_VERSION}=${RUBY_PACKAGE_VERSION} \
+  libruby${RUBY_VERSION}=${RUBY_PACKAGE_VERSION} \
+  libxml2 libxslt1.1 zlib1g ruby-bundler \
+  libpq5 \
+  tzdata
+
+WORKDIR /app
+
+COPY --from=1 /app/.bundle /app/.bundle
+COPY --from=1 /gems /gems
+
+RUN mkdir -p /app /app/tmp
+COPY . /app/
 COPY --from=0 /app/public/packs ./public/packs
 
 ENV RAILS_SERVE_STATIC_FILES=1
