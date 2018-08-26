@@ -36,7 +36,6 @@ ARG RUBY_PACKAGE_VERSION=2.5.1-1ubuntu1
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
   apt-get install -y \
-  git-core \
   ruby=1:2.5.1 \
   ruby${RUBY_VERSION}=${RUBY_PACKAGE_VERSION} \
   libruby${RUBY_VERSION}=${RUBY_PACKAGE_VERSION} \
