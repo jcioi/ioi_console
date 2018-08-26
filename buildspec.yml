@@ -6,14 +6,20 @@ phases:
       - $(aws ecr get-login --no-include-email)
       - 'echo "IyEvdXNyL2Jpbi9wZXJsIC13CnVzZSBzdHJpY3Q7CgpteSAlbHMgPSAoKTsKbXkgJGNvbW1pdF90aW1lOwoKaWYgKCRFTlZ7R0lUX0RJUn0pIHsKCWNoZGlyKCRFTlZ7R0lUX0RJUn0pIG9yIGRpZSAkITsKfQoKJC8gPSAiXDAiOwpvcGVuIEZILCAnZ2l0IGxzLWZpbGVzIC16fCcgb3IgZGllICQhOwp3aGlsZSAoPEZIPikgewoJY2hvbXA7CgkkbHN7JF99ID0gJF87Cn0KY2xvc2UgRkg7CgoKJC8gPSAiXG4iOwpvcGVuIEZILCAiZ2l0IGxvZyAtbSAtciAtLW5hbWUtb25seSAtLW5vLWNvbG9yIC0tcHJldHR5PXJhdyAteiBAQVJHViB8IiBvciBkaWUgJCE7CndoaWxlICg8Rkg+KSB7CgljaG9tcDsKCWlmICgvXmNvbW1pdHRlciAuKj8gKFxkKykgKD86W1wtXCtdXGQrKSQvKSB7CgkJJGNvbW1pdF90aW1lID0gJDE7Cgl9IGVsc2lmIChzL1wwXDBjb21taXQgW2EtZjAtOV17NDB9KCBcKGZyb20gW2EtZjAtOV17NDB9XCkpPyQvLyBvciBzL1wwJC8vKSB7CgkJbXkgQGZpbGVzID0gZGVsZXRlIEBsc3tzcGxpdCgvXDAvLCAkXyl9OwoJCUBmaWxlcyA9IGdyZXAgeyBkZWZpbmVkICRfIH0gQGZpbGVzOwoJCW5leHQgdW5sZXNzIEBmaWxlczsKCQl1dGltZSAkY29tbWl0X3RpbWUsICRjb21taXRfdGltZSwgQGZpbGVzOwoJfQoJbGFzdCB1bmxlc3MgJWxzOwoKfQpjbG9zZSBGSDsK" | base64 -d > /usr/bin/git-set-file-times && chmod +x /usr/bin/git-set-file-times && /usr/bin/git-set-file-times'
       - 'docker pull $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:latest || :'
+      - 'docker pull $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:buildcache_webpack || :'
+      - 'docker pull $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:buildcache_gems || :'
   build:
     commands:
-      - export IMAGE_TAG=$(git rev-parse HEAD)
+      - 'export IMAGE_TAG=$(git rev-parse HEAD)'
       - 'echo $IMAGE_TAG > REVISION'
-      - docker build --cache-from $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:latest -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:$IMAGE_TAG .
-      - docker tag $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:latest
+      - 'export IMAGE_REPO=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console'
+      - 'docker build --target webpack --cache-from ${IMAGE_REPO}:buildcache_webpack -t ${IMAGE_REPO}:buildcache_webpack .'
+      - 'docker build --target gems --cache-from ${IMAGE_REPO}:buildcache_gems -t ${IMAGE_REPO}:buildcache_gems .'
+      - 'docker build --cache-from ${IMAGE_REPO}:latest -t ${IMAGE_REPO}:latest .'
+      - 'docker tag ${IMAGE_REPO}:$IMAGE_TAG ${IMAGE_REPO}:latest'
   post_build:
     commands:
       - 'aws ecr create-repository --repository-name ioi18-console || :'
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:$IMAGE_TAG
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:latest
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:buildcache_gems
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:buildcache_webpack

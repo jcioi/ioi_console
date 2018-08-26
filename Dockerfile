@@ -1,4 +1,4 @@
-FROM node:carbon-stretch
+FROM node:carbon-stretch AS webpack
 RUN mkdir /app
 WORKDIR /app
 COPY package.json yarn.lock /app/
@@ -9,7 +9,7 @@ COPY .babelrc .postcssrc.yml ./
 COPY app/javascript ./app/javascript
 RUN NODE_ENV=production node_modules/.bin/webpack --config config/webpack/production.js
 
-FROM ubuntu:18.04
+FROM ubuntu:18.04 AS gems
 ARG RUBY_VERSION=2.5
 ARG RUBY_PACKAGE_VERSION=2.5.1-1ubuntu1
 ENV DEBIAN_FRONTEND=noninteractive
