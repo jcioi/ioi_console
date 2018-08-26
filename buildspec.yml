@@ -8,6 +8,8 @@ phases:
       - 'docker pull $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:latest || :'
       - 'docker pull $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:buildcache_webpack || :'
       - 'docker pull $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console:buildcache_gems || :'
+      - 'docker pull node:carbon-stretch'
+      - 'docker pull ubuntu:18.04'
   build:
     commands:
       - 'export IMAGE_TAG=$(git rev-parse HEAD)'
