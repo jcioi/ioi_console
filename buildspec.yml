@@ -15,7 +15,7 @@ phases:
       - 'export IMAGE_REPO=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ioi18-console'
       - 'docker build --target webpack --cache-from ${IMAGE_REPO}:buildcache_webpack -t ${IMAGE_REPO}:buildcache_webpack .'
       - 'docker build --target gems --cache-from ${IMAGE_REPO}:buildcache_gems -t ${IMAGE_REPO}:buildcache_gems .'
-      - 'docker build --cache-from ${IMAGE_REPO}:buildcache_webpack --cache-from ${IMAGE_REPO}:buildcache_gems --cache-from ${IMAGE_REPO}:latest -t ${IMAGE_REPO}:latest .'
+      - 'docker build --cache-from ${IMAGE_REPO}:buildcache_webpack --cache-from ${IMAGE_REPO}:buildcache_gems --cache-from ${IMAGE_REPO}:latest -t ${IMAGE_REPO}:$IMAGE_TAG .'
       - 'docker tag ${IMAGE_REPO}:$IMAGE_TAG ${IMAGE_REPO}:latest'
   post_build:
     commands:
