@@ -10,6 +10,7 @@
     = submit_tag 'Generate', class: 'btn btn-primary'
 
 = link_to 'Export CSV', password_tier_passwords_path(@password_tier, format: :csv), class: 'btn btn-default'
+= link_to 'Print', print_password_tier_passwords_path(@password_tier, role: @role), method: :post, data: {confirm: "Are you sure to print #{@passwords.size} passwords for #{@password_tier.description}?"}, class: 'btn btn-default'
 
 %table.table.table-hover
   %thead

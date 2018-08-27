@@ -34,6 +34,7 @@ Rails.application.routes.draw do
         resources :passwords, only: %i(index) do
           collection do
             post :generate
+            post :print
           end
         end
       end

@@ -4,8 +4,9 @@ class Admin::PasswordsController < Admin::ApplicationController
   before_action :set_password_tier
 
   def index
+    @role = params[:role].presence
     @passwords = Password.where(password_tier: @password_tier).includes(person: :team).order('people.login ASC')
-    @passwords = @passwords.where(person: {role: params[:role]}) if params[:role].present?
+    @passwords = @passwords.where(people: {role: @role}) if @role
 
     respond_to do |format|
       format.html { render :index }
@@ -28,6 +29,15 @@ class Admin::PasswordsController < Admin::ApplicationController
     flash[:notice] = 'Password generated'
     redirect_to password_tier_passwords_path(@password_tier)
   end
+
+  def print
+    PrintPasswordsJob.perform_now(@password_tier, role: params[:role].presence)
+
+    flash[:notice] = 'Queued password printing'
+    redirect_to password_tier_passwords_path(@password_tier)
+  end
+
+  private
 
   def set_password_tier
     @password_tier = PasswordTier.find(params[:password_tier_id])
