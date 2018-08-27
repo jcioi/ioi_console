@@ -6,6 +6,15 @@
   - Bundler
 - webpack w/ npm and yarn
 
+## Running Locally
+
+Run the following 2 _concurrently:_
+
+```
+bundle exec rails server
+./bin/webpack --watch
+```
+
 ## Build
 
 ### Docker
