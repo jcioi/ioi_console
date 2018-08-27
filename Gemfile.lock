@@ -52,6 +52,8 @@ GEM
     erubi (1.7.1)
     faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
+    faraday_middleware (0.12.2)
+      faraday (>= 0.7.4, < 1.0)
     ffi (1.9.25)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
@@ -179,6 +181,8 @@ PLATFORMS
 
 DEPENDENCIES
   addressable
+  faraday
+  faraday_middleware
   haml (>= 5.0.0)
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
@@ -194,4 +198,4 @@ DEPENDENCIES
   webpacker
 
 BUNDLED WITH
-   1.16.1
+   1.16.2

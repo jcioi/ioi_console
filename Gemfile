@@ -16,6 +16,9 @@ gem 'octokit'
 
 gem 'addressable'
 
+gem 'faraday'
+gem 'faraday_middleware'
+
 gem 'revision_plate'
 
 gem 'sentry-raven'
