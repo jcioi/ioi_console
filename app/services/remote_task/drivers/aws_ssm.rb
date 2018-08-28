@@ -45,11 +45,11 @@ class RemoteTask::Drivers::AwsSsm < RemoteTask::Drivers::Base
   def execute!
     execution.state ||= {}
     prepare_scratch!
-    send_command!
-    if poll?
-      poll!
-    else
+    if execution.state['command_id']
       update_status!
+    else
+      send_command!
+      poll! if poll?
     end
     if ssm_finished? && !execution.finishing?
       clean_up!
@@ -107,8 +107,10 @@ class RemoteTask::Drivers::AwsSsm < RemoteTask::Drivers::Base
         'executionTimeout' => [(execution.target['timeout'] || 600).to_s],
       },
     )
-    execution.state['command_id'] = resp.command.command_id
     execution.external_id = resp.command.command_id
+    execution.state['command_id'] = resp.command.command_id
+    execution.state['underlying_status'] = resp.command.status
+    execution.state['underlying_status_details'] = resp.command.status_details
     execution.status = :pending
     execution.save!
   end
