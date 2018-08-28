@@ -1,0 +1,26 @@
+- content_for(:content_header) { "Remote Task Execution" }
+
+= link_to 'Back', remote_task_executions_path(@execution.task)
+
+%div.panel.panel-default
+  %div.panel-heading
+    Execution: #{@execution.description}
+  %div.panel-body
+    %p Status: #{@execution.status}
+    %p
+      Target Kind: #{@execution.target_kind}
+      %br
+      %pre
+        %code= @execution.target.to_yaml
+
+- if @execution.log_provider
+  %div.panel.panel-default
+    %div.panel-heading
+      Execution Log (#{@execution.log_kind})
+    %div.panel-body
+      %p
+        %code= @execution.log.to_json
+      %p
+        %pre
+          %code= @execution.log_provider.get.read
+

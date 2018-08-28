@@ -42,6 +42,9 @@ Rails.application.routes.draw do
       resources :contests do
       end
 
+      resources :remote_tasks, only: %i(index new create) do
+        resources :remote_task_executions, as: :executions, path: 'executions', only: %i(index show)
+      end
     end
   end
 

@@ -5,8 +5,15 @@
 - Ruby 2.5 or later
   - Bundler
 - webpack w/ npm and yarn
+- PostgreSQL (at least we need jsonb support)
 
 ## Running Locally
+
+```
+bundle install 
+yarn install
+bundle exec rake db:migrate
+```
 
 Run the following 2 _concurrently:_
 

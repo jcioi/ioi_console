@@ -56,5 +56,17 @@ Rails.application.configure do
   # *.lo.example.org
   config.action_dispatch.tld_length = 2
 
-  config.active_job.queue_adapter = :inline
+  config.active_job.queue_adapter = :async
+
+  config.x.remote_task.log_provider.aws_s3.region = ENV.fetch('IOI_S3_LOG_REGION', 'ap-northeast-1')
+  config.x.remote_task.log_provider.aws_s3.bucket = ENV.fetch('IOI_S3_LOG_BUCKET', 'ioi18-misc-internal')
+  config.x.remote_task.log_provider.aws_s3.prefix = ENV.fetch('IOI_S3_LOG_PREFIX', 'console-dev/remote-task/log/')
+
+  config.x.remote_task.driver.aws_ssm.region = ENV.fetch('IOI_SSM_REGION', 'ap-northeast-1')
+  config.x.remote_task.driver.aws_ssm.log_s3_region = ENV.fetch('IOI_SSM_LOG_S3_REGION', 'ap-northeast-1')
+  config.x.remote_task.driver.aws_ssm.log_s3_bucket = ENV.fetch('IOI_SSM_LOG_S3_BUCKET', 'ioi18-misc-internal')
+  config.x.remote_task.driver.aws_ssm.log_s3_prefix = ENV.fetch('IOI_SSM_LOG_S3_PREFIX', 'console-dev/remote-task/ssm-log/')
+  config.x.remote_task.driver.aws_ssm.scratch_s3_region = ENV.fetch('IOI_SSM_SCRATCH_S3_REGION', 'ap-northeast-1')
+  config.x.remote_task.driver.aws_ssm.scratch_s3_bucket = ENV.fetch('IOI_SSM_SCRATCH_S3_BUCKET', 'ioi18-misc-internal')
+  config.x.remote_task.driver.aws_ssm.scratch_s3_prefix = ENV.fetch('IOI_SSM_SCRATCH_S3_PREFIX', 'console-dev/remote-task/ssm-scratch/')
 end

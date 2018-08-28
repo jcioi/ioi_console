@@ -81,4 +81,16 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.x.remote_task.log_provider.aws_s3.region = ENV.fetch('IOI_S3_LOG_REGION')
+  config.x.remote_task.log_provider.aws_s3.bucket = ENV.fetch('IOI_S3_LOG_BUCKET')
+  config.x.remote_task.log_provider.aws_s3.prefix = ENV.fetch('IOI_S3_LOG_PREFIX')
+
+  config.x.remote_task.driver.aws_ssm.region = ENV.fetch('IOI_SSM_REGION')
+  config.x.remote_task.driver.aws_ssm.log_s3_region = ENV.fetch('IOI_SSM_LOG_S3_REGION')
+  config.x.remote_task.driver.aws_ssm.log_s3_bucket = ENV.fetch('IOI_SSM_LOG_S3_BUCKET')
+  config.x.remote_task.driver.aws_ssm.log_s3_prefix = ENV.fetch('IOI_SSM_LOG_S3_PREFIX')
+  config.x.remote_task.driver.aws_ssm.scratch_s3_region = ENV.fetch('IOI_SSM_SCRATCH_S3_REGION')
+  config.x.remote_task.driver.aws_ssm.scratch_s3_bucket = ENV.fetch('IOI_SSM_SCRATCH_S3_BUCKET')
+  config.x.remote_task.driver.aws_ssm.scratch_s3_prefix = ENV.fetch('IOI_SSM_SCRATCH_S3_PREFIX')
 end

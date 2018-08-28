@@ -23,6 +23,10 @@ gem 'revision_plate'
 
 gem 'sentry-raven'
 
+gem 'net-ssh'
+gem 'aws-sdk-s3'
+gem 'aws-sdk-ssm'
+
 # gem 'redis', '~> 4.0'
 
 # gem 'bootsnap', '>= 1.1.0', require: false

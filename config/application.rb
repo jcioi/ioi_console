@@ -29,6 +29,12 @@ module IoiConsole
     # Don't generate system test files.
     config.generators.system_tests = nil
 
+    config.autoload_paths += %W(#{config.root}/app/services)
+    config.eager_load_paths += %W(#{config.root}/app/services)
+
+    config.x.remote_task.log_provider = Rails::Application::Configuration::Custom.new
+    config.x.remote_task.driver = Rails::Application::Configuration::Custom.new
+
     config.active_job.queue_adapter = :inline
   end
 end
