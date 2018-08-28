@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_22_174829) do
+ActiveRecord::Schema.define(version: 2018_08_27_192259) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,6 +96,31 @@ ActiveRecord::Schema.define(version: 2018_08_22_174829) do
     t.index ["team_id"], name: "index_people_on_team_id"
   end
 
+  create_table "remote_task_executions", force: :cascade do |t|
+    t.bigint "remote_task_id", null: false
+    t.integer "status", null: false
+    t.string "description"
+    t.jsonb "state", null: false
+    t.string "target_kind", null: false
+    t.jsonb "target", null: false
+    t.string "external_id"
+    t.string "log_kind"
+    t.jsonb "log"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["remote_task_id"], name: "index_remote_task_executions_on_remote_task_id"
+    t.index ["target_kind", "external_id"], name: "index_remote_task_executions_on_target_kind_and_external_id"
+  end
+
+  create_table "remote_tasks", force: :cascade do |t|
+    t.string "kind", null: false
+    t.jsonb "task_arguments", null: false
+    t.integer "status", null: false
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "teams", force: :cascade do |t|
     t.string "slug", null: false
     t.string "name", null: false
@@ -114,4 +139,5 @@ ActiveRecord::Schema.define(version: 2018_08_22_174829) do
   add_foreign_key "passwords", "password_tiers"
   add_foreign_key "passwords", "people"
   add_foreign_key "people", "teams"
+  add_foreign_key "remote_task_executions", "remote_tasks"
 end

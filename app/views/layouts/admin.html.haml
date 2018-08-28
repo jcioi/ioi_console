@@ -36,7 +36,7 @@
             .pull-left.info
               %p= current_user&.name
           %ul.sidebar-menu
-            %li.header HEADER
+            %li.header DATA
             %li{class: sidebar_active_class('admin/teams')}
               %a{href: teams_path}
                 %i.fa.fa-link
@@ -61,6 +61,12 @@
               %a{href: contests_path}
                 %i.fa.fa-link
                 %span Contests
+            %li.header UTILITIES
+            %li{class: sidebar_active_class('admin/remote_tasks')}
+              %a{href: remote_tasks_path}
+                %i.fa.fa-link
+                %span Remote Tasks
+
 
       .content-wrapper
         %section.content-header

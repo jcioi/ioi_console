@@ -1,0 +1,18 @@
+- content_for(:content_header) { "Remote Tasks" }
+
+= link_to 'New Remote Task', new_remote_task_path, class: 'btn btn-primary'
+
+%table.table.table-hover
+  %thead
+    %tr
+      %th ID
+      %th Description
+      %th Status
+      %th Created At
+      %th{colspan: 2}
+  %tbody
+    - @remote_tasks.each do |task|
+      %tr
+        %td= task.id
+        %td= link_to task.description, remote_task_executions_path(task)
+        %td= task.status

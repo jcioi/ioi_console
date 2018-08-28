@@ -1,0 +1,29 @@
+- content_for(:content_header) { "Remote Task Executions" }
+
+%div.panel.panel-default
+  %div.panel-heading
+    Task: #{@remote_task.description}
+  %div.panel-body
+    %p
+      Kind: #{@remote_task.kind}
+      %br
+      Status: #{@remote_task.status}
+    %pre
+      %code= @remote_task.task_arguments.to_yaml
+
+%table.table.table-hover
+  %thead
+    %tr
+      %th ID
+      %th Description
+      %th Driver
+      %th External ID
+      %th Status
+  %tbody
+    - @remote_task_executions.each do |execution|
+      %tr
+        %td= link_to execution.id.to_s, remote_task_execution_path(execution.task, execution)
+        %td= link_to execution.description, remote_task_execution_path(execution.task, execution)
+        %td= execution.target_kind
+        %td= execution.external_id
+        %td= execution.status

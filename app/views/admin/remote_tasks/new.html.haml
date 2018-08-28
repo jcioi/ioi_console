@@ -1,0 +1,31 @@
+= content_for(:content_header) { "New Remote Task" }
+
+= form_with(model: @remote_task, local: true, class: 'form-horizontal') do |form|
+  - if @remote_task.errors.empty?
+    .form-group#error_explanation
+      %ul
+        - @remote_task.errors.full_messages.each do |message|
+          %li= message
+  .form-group
+    = form.label :description, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = form.text_field :description, class: 'form-control'
+
+  .form-group
+    = form.label :kind, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = form.text_field :kind, class: 'form-control', placeholder: 'e.g. Script'
+
+  .form-group
+    = form.label :task_arguments, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = form.text_area :task_arguments, value: params.dig(:remote_task, :task_arguments), class: 'form-control', placeholder: 'JSON: {...}'
+
+  .form-group
+    = form.label :targets, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = form.text_area :targets, value: params.dig(:remote_task, :targets), class: 'form-control', placeholder: 'JSON: [{"kind": ..., ...}, ...]'
+
+  .form-group
+    .col-sm-10.col-sm-offset-2
+      = form.submit(class: 'btn btn-primary')

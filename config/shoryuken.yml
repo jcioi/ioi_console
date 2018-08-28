@@ -1,0 +1,11 @@
+concurrency: <%= ENV.fetch('IOI_SHORYUKEN_CONCURRENCY', 15) %>
+# ActiveJob prefixes queue name, the default delimiter is `_`
+queues:
+<% if ENV['IOI_SHORYUKEN_QUEUE'] %>
+  - [<%= ENV.fetch('IOI_SHORYUKEN_QUEUE') %>, 1]
+<% else %>
+  - [high, 2]
+  - [default, 1]
+  - [cloudwatchevents, 1]
+delay: 1
+<% end %>
