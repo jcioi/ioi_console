@@ -59,7 +59,6 @@ Rails.application.configure do
   if ENV.fetch('IOI_SQS_REGION', ENV['AWS_REGION']) && ENV['IOI_SQS_QUEUE_PREFIX']
     config.active_job.queue_adapter = :shoryuken
     config.active_job.queue_name_prefix = ENV['IOI_SQS_QUEUE_PREFIX']
-    p  config.active_job.queue_name_prefix
   else
     config.active_job.queue_adapter = :async
   end
@@ -68,6 +67,7 @@ Rails.application.configure do
   config.x.remote_task.log_provider.aws_s3.bucket = ENV.fetch('IOI_S3_LOG_BUCKET', 'ioi18-misc-internal')
   config.x.remote_task.log_provider.aws_s3.prefix = ENV.fetch('IOI_S3_LOG_PREFIX', 'console-dev/remote-task/log/')
 
+  config.x.remote_task.driver.aws_ssm.polling = ENV['IOI_SSM_PROCESS_EVENTS'] != '1'
   config.x.remote_task.driver.aws_ssm.region = ENV.fetch('IOI_SSM_REGION', 'ap-northeast-1')
   config.x.remote_task.driver.aws_ssm.log_s3_region = ENV.fetch('IOI_SSM_LOG_S3_REGION', 'ap-northeast-1')
   config.x.remote_task.driver.aws_ssm.log_s3_bucket = ENV.fetch('IOI_SSM_LOG_S3_BUCKET', 'ioi18-misc-internal')

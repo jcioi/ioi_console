@@ -59,6 +59,7 @@ SQS is activated when IOI_SQS_QUEUE_PREFIX is given
 
 ### SSM Driver
 
+- `IOI_SSM_PROCESS_EVENTS` (optional, default to `0`; set `1` to disable polling)
 - `IOI_SSM_REGION`
 - `IOI_SSM_LOG_S3_REGION`
 - `IOI_SSM_LOG_S3_BUCKET`

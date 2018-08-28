@@ -86,6 +86,7 @@ Rails.application.configure do
   config.x.remote_task.log_provider.aws_s3.bucket = ENV.fetch('IOI_S3_LOG_BUCKET')
   config.x.remote_task.log_provider.aws_s3.prefix = ENV.fetch('IOI_S3_LOG_PREFIX')
 
+  config.x.remote_task.driver.aws_ssm.polling = ENV['IOI_SSM_PROCESS_EVENTS'] != '1'
   config.x.remote_task.driver.aws_ssm.region = ENV.fetch('IOI_SSM_REGION')
   config.x.remote_task.driver.aws_ssm.log_s3_region = ENV.fetch('IOI_SSM_LOG_S3_REGION')
   config.x.remote_task.driver.aws_ssm.log_s3_bucket = ENV.fetch('IOI_SSM_LOG_S3_BUCKET')

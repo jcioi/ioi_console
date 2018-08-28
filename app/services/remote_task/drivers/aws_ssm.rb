@@ -6,8 +6,9 @@ class RemoteTask::Drivers::AwsSsm < RemoteTask::Drivers::Base
   class UnexpectedError < StandardError; end
   class ScriptRequired < StandardError; end
 
+  # Rely on CloudWatchEventsWorker, which should process CloudWatch Events of SSM Run Command sent to SQS
   def self.poll?
-    ENV['IOI_SSM_PROCESS_EVENTS'] != '1'
+    Rails.application.config.x.remote_task.driver.aws_ssm.polling
   end
 
   def self.make_ssm_client(region: nil)
