@@ -20,5 +20,6 @@ class CloudwatchEventsWorker
     end
     execution.driver(scratch: nil, script: nil).execute!
     execution.handle_result() if execution.finished?
+    execution.task.update_status.save!
   end
 end
