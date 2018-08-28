@@ -14,6 +14,7 @@
     - @remote_tasks.each do |task|
       %tr
         %td= task.id
-        %td= task.status
+        %td
+          %span{class: status_label(task)}= task.status
         %td= link_to task.description, remote_task_executions_path(task)
         %td= task.created_at

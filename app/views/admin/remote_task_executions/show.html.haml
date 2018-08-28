@@ -6,7 +6,9 @@
   %div.panel-heading
     Execution: #{@execution.description}
   %div.panel-body
-    %p Status: #{@execution.status}
+    %p
+      Status:
+      %span{class: status_label(@execution)}= @execution.status
     %p
       Target Kind: #{@execution.target_kind}
       %br
