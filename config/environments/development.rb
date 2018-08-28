@@ -55,4 +55,6 @@ Rails.application.configure do
 
   # *.lo.example.org
   config.action_dispatch.tld_length = 2
+
+  config.active_job.queue_adapter = :inline
 end

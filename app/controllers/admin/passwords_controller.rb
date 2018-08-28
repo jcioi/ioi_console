@@ -31,7 +31,7 @@ class Admin::PasswordsController < Admin::ApplicationController
   end
 
   def print
-    PrintPasswordsJob.perform_now(@password_tier, role: params[:role].presence)
+    PrintPasswordsJob.perform_later(@password_tier, role: params[:role].presence)
 
     flash[:notice] = 'Queued password printing'
     redirect_to password_tier_passwords_path(@password_tier)
