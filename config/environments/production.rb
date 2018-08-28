@@ -82,6 +82,13 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  if ENV.fetch('IOI_SQS_REGION', ENV['AWS_REGION']) && ENV['IOI_SQS_QUEUE_PREFIX']
+    config.active_job.queue_adapter = :shoryuken
+    config.active_job.queue_name_prefix = ENV['IOI_SQS_QUEUE_PREFIX']
+  else
+    config.active_job.queue_adapter = :inline
+  end
+
   config.x.remote_task.log_provider.aws_s3.region = ENV.fetch('IOI_S3_LOG_REGION')
   config.x.remote_task.log_provider.aws_s3.bucket = ENV.fetch('IOI_S3_LOG_BUCKET')
   config.x.remote_task.log_provider.aws_s3.prefix = ENV.fetch('IOI_S3_LOG_PREFIX')
