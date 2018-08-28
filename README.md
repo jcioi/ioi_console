@@ -22,6 +22,14 @@ bundle exec rails server
 ./bin/webpack --watch
 ```
 
+### SQS Worker
+
+Specify `AWS_REGION` & `IOI_SQS_QUEUE_PREFIX` and run:
+
+```
+bundle exec shoryuken -R -C ./config/shoryuken.yml
+```
+
 ## Build
 
 ### Docker
