@@ -1,6 +1,8 @@
 require 'ioiprint'
 
 class PrintStaffCallJob < ApplicationJob
+  queue_as :high if Rails.env.production?
+
   def perform(contestant:, message:)
     Ioiprint.new.print_staff_call(
       message: message,
