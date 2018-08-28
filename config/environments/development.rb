@@ -56,7 +56,13 @@ Rails.application.configure do
   # *.lo.example.org
   config.action_dispatch.tld_length = 2
 
-  config.active_job.queue_adapter = :async
+  if ENV.fetch('IOI_SQS_REGION', ENV['AWS_REGION']) && ENV['IOI_SQS_QUEUE_PREFIX']
+    config.active_job.queue_adapter = :shoryuken
+    config.active_job.queue_name_prefix = ENV['IOI_SQS_QUEUE_PREFIX']
+    p  config.active_job.queue_name_prefix
+  else
+    config.active_job.queue_adapter = :async
+  end
 
   config.x.remote_task.log_provider.aws_s3.region = ENV.fetch('IOI_S3_LOG_REGION', 'ap-northeast-1')
   config.x.remote_task.log_provider.aws_s3.bucket = ENV.fetch('IOI_S3_LOG_BUCKET', 'ioi18-misc-internal')

@@ -1,0 +1,4 @@
+concurrency: <%= ENV.fetch('IOI_SHORYUKEN_CONCURRENCY', 15) %>
+# ActiveJob prefixes queue name, the default delimiter is `_`
+queues:
+  - [<%= ENV.fetch('IOI_SHORYUKEN_QUEUE', 'default') %>, 1]

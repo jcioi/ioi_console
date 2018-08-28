@@ -27,6 +27,9 @@ gem 'net-ssh'
 gem 'aws-sdk-s3'
 gem 'aws-sdk-ssm'
 
+gem 'shoryuken'
+gem 'aws-sdk-sqs'
+
 # gem 'redis', '~> 4.0'
 
 # gem 'bootsnap', '>= 1.1.0', require: false

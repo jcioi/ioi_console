@@ -48,7 +48,7 @@ class RemoteTaskExecution < ApplicationRecord
 
   def execute!()
     prepare()
-    driver(**driver_args).tap{ |_| p _ }.execute!
+    driver(**driver_args).execute!
     handle_result()
   end
 
