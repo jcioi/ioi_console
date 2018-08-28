@@ -6,13 +6,14 @@
   %thead
     %tr
       %th ID
-      %th Description
       %th Status
+      %th Description
       %th Created At
       %th{colspan: 2}
   %tbody
     - @remote_tasks.each do |task|
       %tr
         %td= task.id
-        %td= link_to task.description, remote_task_executions_path(task)
         %td= task.status
+        %td= link_to task.description, remote_task_executions_path(task)
+        %td= task.created_at
