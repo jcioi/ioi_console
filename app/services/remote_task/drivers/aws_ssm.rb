@@ -6,6 +6,10 @@ class RemoteTask::Drivers::AwsSsm < RemoteTask::Drivers::Base
   class UnexpectedError < StandardError; end
   class ScriptRequired < StandardError; end
 
+  def self.poll?
+    ENV['IOI_SSM_PROCESS_EVENTS'] != '1'
+  end
+
   def self.make_ssm_client(region: nil)
     Aws::SSM::Client.new(
       region: region || Rails.application.config.x.remote_task.driver.aws_ssm.region,
@@ -43,13 +47,17 @@ class RemoteTask::Drivers::AwsSsm < RemoteTask::Drivers::Base
     send_command!
     if poll?
       poll!
+    else
+      update_status!
+    end
+    if ssm_finished? && !execution.finishing?
       clean_up!
       finalize!
     end
   end
 
   def poll?
-    true
+    self.class.poll?
   end
 
   def prepare_scratch!
@@ -104,34 +112,44 @@ class RemoteTask::Drivers::AwsSsm < RemoteTask::Drivers::Base
     execution.save!
   end
 
+  def update_status!(max_retry = 3)
+    not_found_count = 0
+    begin
+      resp = ssm.get_command_invocation(
+        command_id: execution.state.fetch('command_id'),
+        instance_id: instance_id,
+      )
+    rescue Aws::SSM::Errors::InvocationDoesNotExist
+      not_found_count += 1
+      raise if not_found_count > max_retry
+      sleep 2
+      retry
+    end
+
+    execution.state['underlying_status'] = resp.status
+    execution.state['underlying_status_details'] = resp.status_details
+    execution.state['stdout_url'] = resp.standard_output_url
+    execution.status = case resp.status
+    when 'Pending', 'Delayed'
+      :pending
+    when 'InProgress', 'Cancelling'
+      :running
+    else
+      execution.status
+    end
+    execution.save! unless ssm_finished?
+  end
+
+  def ssm_finished?
+    %w(Success Failed TimedOut Cancelled).include? execution.state['underlying_status']
+  end
+
   def poll!
     return if execution.finishing?
-    not_found_count = 0
     loop do
-      begin
-        resp = ssm.get_command_invocation(
-          command_id: execution.state.fetch('command_id'),
-          instance_id: instance_id,
-        )
-      rescue Aws::SSM::Errors::InvocationDoesNotExist
-        not_found_count += 1
-        raise if not_found_count > 3
-        sleep 2
-        retry
-      end
-      execution.state['underlying_status'] = resp.status
-      execution.state['underlying_status_details'] = resp.status_details
-      execution.state['stdout_url'] = resp.standard_output_url
-      execution.status = case resp.status
-      when 'Pending'
-        :pending
-      when 'InProgress', 'Delayed', 'Cancelling'
-        :running
-      else
-        break
-      end
+      update_status!
+      break if ssm_finished?
       sleep 2
-      execution.save!
     end
   end
 
@@ -150,13 +168,13 @@ class RemoteTask::Drivers::AwsSsm < RemoteTask::Drivers::Base
   end
 
   def finalize!
-    case execution.state.fetch('underlying_status')
+    execution.status = case execution.state['underlying_status']
     when 'Success'
-      execution.status = :succeeded
+      :succeeded
     when 'Failed', 'TimedOut'
-      execution.status = :failed
+      :failed
     when 'Cancelled'
-      execution.status = :cancelled
+      :cancelled
     else
       raise UnexpectedError, "Unknown SSM status #{execution.state.fetch('underlying_status')} on #{execution.state.fetch('command_id')} for #{instance_id}"
     end
