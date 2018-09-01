@@ -1,6 +1,7 @@
 class Hailing < ApplicationRecord
   KINDS = [
     'Restroom',
+    'Need an extra water bottle',
     'Spare sheet',
     'Technical problem',
     'Handwritten clarification',

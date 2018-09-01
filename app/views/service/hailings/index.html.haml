@@ -1,12 +1,12 @@
 = content_for(:content_header) { "Call a staff" }
 
-%p Pick an appropriate request for your request from the dropdown below, then click "Call".
+%p Choose the appropriate request type from the list below, then click "Call".
 
 = form_with(model: @hailing, local: true, class: 'form-inline') do |form|
   .form-group
     = form.select :request, Hailing::KINDS, class: 'control-label'
   .form-group
-    = form.submit 'Call', class: 'btn btn-primary'
+    = form.submit 'Send request', class: 'btn btn-primary'
 
 %h4 Your special needs information
 
