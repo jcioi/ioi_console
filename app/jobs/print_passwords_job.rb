@@ -15,10 +15,10 @@ class PrintPasswordsJob < ApplicationJob
       }
     end
 
-    slices = passwords.each_slice(25).to_a
+    slices = passwords.each_slice(50).to_a
     slices.each_with_index do |slice, idx|
       Ioiprint.new.print_passwords(
-        title: "Password for #{name} (#{idx+1}/#{slices.size})",
+        title: "Password for #{name}",
         users: users,
       )
     end
