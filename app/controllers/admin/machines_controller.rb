@@ -3,6 +3,8 @@ require 'csv'
 class Admin::MachinesController < Admin::ApplicationController
   before_action :set_machine, only: [:show, :edit, :update, :destroy]
 
+  skip_before_action :require_staff, only: %i(lookup)
+
   # GET /machines
   # GET /machines.json
   def index
