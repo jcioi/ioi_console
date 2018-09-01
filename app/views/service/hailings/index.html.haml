@@ -1,0 +1,37 @@
+= content_for(:content_header) { "Call a staff" }
+
+%p Pick an appropriate button for your request from below.
+
+= form_with(model: @hailing, local: true, class: 'form-inline') do |form|
+  .form-group
+    = form.select :request, Hailing::KINDS, class: 'control-label'
+  .form-group
+    = form.submit class: 'btn btn-primary'
+
+%h4 Your special needs information
+
+%p Special Needs data explains every contestants' special needs (e.g. disabilities). This is also notified to the staff when you call a staff.
+
+- if current_user.special_requirement_note.present?
+  %p We understand you have the following special needs:
+  %pre= current_user.special_requirement_note
+
+  %p If you think this is incorrect, please correct from the button below.
+
+- else
+  %p We have not received any special needs information for you. Submit from the button below if you have any.
+
+= link_to 'Edit Special Needs', edit_special_requirement_note_path, class: 'btn btn-default'
+
+%h3 Your recent requests
+
+%table.table.table-hover
+  %thead
+    %tr
+      %th Request
+      %th Time
+  %tbody
+    - @hailings.each do |hailing|
+      %tr
+        %td= hailing.request
+        %td= hailing.created_at.in_time_zone('Asia/Tokyo')

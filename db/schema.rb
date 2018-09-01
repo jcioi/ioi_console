@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_27_192259) do
+ActiveRecord::Schema.define(version: 2018_09_01_063752) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,16 @@ ActiveRecord::Schema.define(version: 2018_08_27_192259) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_floors_on_name2", unique: true
+  end
+
+  create_table "hailings", force: :cascade do |t|
+    t.bigint "contestant_id"
+    t.string "request"
+    t.text "details"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contestant_id", "created_at"], name: "index_hailings_on_contestant_id_and_created_at"
+    t.index ["contestant_id"], name: "index_hailings_on_contestant_id"
   end
 
   create_table "machines", force: :cascade do |t|
@@ -135,6 +145,7 @@ ActiveRecord::Schema.define(version: 2018_08_27_192259) do
   add_foreign_key "desks", "floors"
   add_foreign_key "desks", "machines"
   add_foreign_key "desks", "people", column: "contestant_id"
+  add_foreign_key "hailings", "people", column: "contestant_id"
   add_foreign_key "password_tiers", "contests"
   add_foreign_key "passwords", "password_tiers"
   add_foreign_key "passwords", "people"

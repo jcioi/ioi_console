@@ -3,6 +3,7 @@ class Person < ApplicationRecord
   has_one :desk, dependent: :nullify, foreign_key: :contestant_id
   has_many :assignment_histories, class_name: 'DeskAssignmentHistory', dependent: :nullify, foreign_key: :contestant_id
   has_many :passwords, dependent: :destroy
+  has_many :hailings, dependent: :nullify, foreign_key: :contestant_id
 
   enum role: %i(staff contestant leader)
 

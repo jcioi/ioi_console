@@ -55,6 +55,15 @@ Rails.application.routes.draw do
     end
   end
 
+  constraints subdomain: 'service' do
+    scope module: 'service' do
+      get '/', to: redirect('/hailings')
+      resources :hailings, only: %i(index create)
+      resource :special_requirement_note, only: %i(edit update)
+    end
+  end
+
+
   get '/site/sha' => RevisionPlate::App.new(File.join(__dir__, '..', 'REVISION'))
   resources :sessions, only: %i(new create destroy)
 end

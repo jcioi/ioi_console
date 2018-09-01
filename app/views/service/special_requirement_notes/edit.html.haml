@@ -1,0 +1,13 @@
+= content_for(:content_header) { "Editing Special Needs" }
+
+%p Explain your special needs here.
+
+= form_with(model: current_user, url: special_requirement_note_path, local: true, class: 'form-horizontal') do |form|
+  .form-group
+    = form.label :special_requirement_note, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = form.text_area :special_requirement_note, class: 'form-control', placeholder: "Explain your special needs"
+
+  .form-group
+    .col-sm-10.col-sm-offset-2
+      = form.submit('Update', class: 'btn btn-primary')
