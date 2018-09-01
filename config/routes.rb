@@ -26,6 +26,7 @@ Rails.application.routes.draw do
 
       resources :machines do
         collection do
+          get :lookup
           post :import
         end
       end

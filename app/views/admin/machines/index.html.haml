@@ -14,10 +14,12 @@
   %thead
     %tr
       %th MAC Address
+      %th IP Address
       %th{colspan: 2}
   %tbody
     - @machines.each do |machine|
       %tr
         %td= machine.mac
+        %td= machine.ip_address
         %td= link_to 'Edit', edit_machine_path(machine)
         %td= link_to 'Destroy', machine, method: :delete, data: {confirm: 'Are you sure?'}

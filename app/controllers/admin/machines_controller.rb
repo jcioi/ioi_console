@@ -9,6 +9,25 @@ class Admin::MachinesController < Admin::ApplicationController
     @machines = Machine.all.order(mac: :asc)
   end
 
+  def lookup
+    machine = Machine.where(ip_address: params[:ip]).first
+    return render(status: :not_found, json: {}) unless machine
+    contestant = machine&.desk&.contestant && {
+      id: machine.desk.contestant.login,
+      name: machine.desk.contestant.display_name,
+      special_requirement_note: machine.desk.contestant.special_requirement_note.presence,
+    }
+    desk = machine&.desk && {
+      id: machine.desk.name,
+      zone: machine.desk.floor.name,
+    }
+    render(json: {
+      machine: {mac: machine.mac, ip_address: machine.ip_address},
+      contestant:  contestant,
+      desk: desk,
+    })
+  end
+
   # GET /machines/new
   def new
     @machine = Machine.new

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_01_074522) do
+ActiveRecord::Schema.define(version: 2018_09_01_090524) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,10 +40,13 @@ ActiveRecord::Schema.define(version: 2018_09_01_074522) do
     t.datetime "updated_at", null: false
     t.bigint "contestant_id"
     t.bigint "machine_id"
+    t.string "switch_host"
+    t.string "switch_interface"
     t.index ["contestant_id"], name: "index_desks_on_contestant_id"
     t.index ["floor_id"], name: "index_desks_on_floor_id"
     t.index ["machine_id"], name: "index_desks_on_machine_id"
     t.index ["name"], name: "index_desks_on_name"
+    t.index ["switch_host", "switch_interface"], name: "index_desks_on_switch_host_and_switch_interface", unique: true
   end
 
   create_table "floors", force: :cascade do |t|
@@ -69,6 +72,7 @@ ActiveRecord::Schema.define(version: 2018_09_01_074522) do
     t.integer "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "ip_address"
     t.index ["mac"], name: "index_machines_on_mac2", unique: true
   end
 

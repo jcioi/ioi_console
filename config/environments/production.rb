@@ -101,4 +101,13 @@ Rails.application.configure do
   config.x.remote_task.driver.aws_ssm.scratch_s3_region = ENV.fetch('IOI_SSM_SCRATCH_S3_REGION')
   config.x.remote_task.driver.aws_ssm.scratch_s3_bucket = ENV.fetch('IOI_SSM_SCRATCH_S3_BUCKET')
   config.x.remote_task.driver.aws_ssm.scratch_s3_prefix = ENV.fetch('IOI_SSM_SCRATCH_S3_PREFIX')
+
+  config.x.ipam.leases_s3_region = ENV.fetch('IOI_IPAM_LEASES_S3_REGION')
+  config.x.ipam.leases_s3_bucket = ENV.fetch('IOI_IPAM_LEASES_S3_BUCKET')
+  config.x.ipam.leases_s3_key = ENV.fetch('IOI_IPAM_LEASES_S3_KEY')
+  config.x.ipam.leases_target_ids = ENV.fetch('IOI_IPAM_LEASES_TARGET_IDS').split(?,).map(&:to_i)
+  config.x.ipam.ssh_user = ENV.fetch('IOI_IPAM_SSH_USER')
+  config.x.ipam.ssh_password = ENV.fetch('IOI_IPAM_SSH_PASSWORD')
+  config.x.ipam.switch_hosts = ENV.fetch('IOI_IPAM_SWITCH_HOSTS').split(?,)
 end
+
