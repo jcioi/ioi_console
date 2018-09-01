@@ -18,5 +18,7 @@ class PrintHailingJob < ApplicationJob
         map: nil,  # TODO!!!
       },
     )
+
+    hailing.update!(print_requested_at: Time.now)
   end
 end
