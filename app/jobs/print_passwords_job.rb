@@ -4,7 +4,10 @@ class PrintPasswordsJob < ApplicationJob
   def perform(password_tier, role: nil)
     name = password_tier.contest&.name || password_tier.description  # TODO: consider password_tier.name?
 
-    passwords = password_tier.passwords.includes(:person).order('people.login ASC')
+    passwords = password_tier.passwords
+      .includes(:person)
+      .left_joins(person: :desk)
+      .order(Arel.sql('desks.name ASC, people.login ASC'))
     passwords = passwords.where(people: {role: role}) if role.present?
 
     users = passwords.map do |password|
