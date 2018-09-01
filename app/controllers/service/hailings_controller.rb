@@ -9,7 +9,7 @@ class Service::HailingsController < Service::ApplicationController
     @hailing.contestant = current_user
     @hailing.save!
     PrintHailingJob.perform_later(@hailing)
-    redirect_to hailings_path, notice: 'Request has been dispatched to the contest staffs. Raise your hand if our staff is not coming.'
+    redirect_to hailings_path, notice: 'Your request has been sent. If any staff is not showing up for a while, raise your hand.'
   end
 
   private
