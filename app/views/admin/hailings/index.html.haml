@@ -1,0 +1,24 @@
+- content_for(:content_header) { "Requests" }
+
+%table.table.table-hover
+  %thead
+    %tr
+      %th ID
+      %th Contestant
+      %th Desk
+      %th Request
+      %th Created At
+      %th Print Requested At
+      %th{colspan: 2}
+  %tbody
+    - @hailings.each do |hailing|
+      %tr
+        %td= hailing.id
+        %td
+          #{hailing.contestant.login} (#{hailing.contestant.display_name})
+        %td
+          - if hailing.contestant.desk
+            #{hailing.contestant.desk.name}
+        %td= hailing.request
+        %td= hailing.created_at.in_time_zone('Asia/Tokyo') # XXX:
+        %td= hailing.print_requested_at&.in_time_zone('Asia/Tokyo') # XXX:

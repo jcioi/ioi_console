@@ -46,6 +46,8 @@ Rails.application.routes.draw do
       resources :remote_tasks, only: %i(index new create) do
         resources :remote_task_executions, as: :executions, path: 'executions', only: %i(index show)
       end
+
+      resources :hailings, only: %i(index)
     end
   end
 
