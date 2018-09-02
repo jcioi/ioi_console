@@ -5,7 +5,7 @@
     - if desk
       #{desk.name}
     - else
-      NOTFOUND
+      DEBUG
       #{request.remote_ip} +
       #{request.env['HTTP_X_FORWARDED_FOR']}
 
@@ -17,3 +17,7 @@
       = password_field_tag :password, '', placeholder: 'Password', class: 'form-control'
     .form-group
       = submit_tag 'Log in', class: 'form-control btn btn-primary'
+
+
+#{request.remote_ip} +
+#{request.env['HTTP_X_FORWARDED_FOR']}
