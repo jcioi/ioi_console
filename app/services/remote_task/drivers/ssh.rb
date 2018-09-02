@@ -30,7 +30,7 @@ class RemoteTask::Drivers::Ssh < RemoteTask::Drivers::Base
       prepare_scratch!
       run_command!
       mark_success!
-    rescue Net::SSH::Exception, ExecutionFailed => e
+    rescue Net::SSH::Exception, ExecutionFailed, Timeout::Error => e
       mark_failure!(e)
     end
     upload_log!
@@ -63,12 +63,15 @@ class RemoteTask::Drivers::Ssh < RemoteTask::Drivers::Base
   def run_command!
     execution.status = :pending
     execution.save!
-    ssh_run("bash") do |ch|
-      set_ssh_output_hook(ch)
-      ch.send_data(ssh_command)
-      ch.eof!
-      execution.status = :running
-      execution.save!
+
+    Timeout.timeout(execution.target.fetch('command_timeout', 900)&.to_i) do
+      ssh_run("IOI_REMOTE_TASK=#{execution.task.id}_#{execution.id} bash") do |ch|
+        set_ssh_output_hook(ch)
+        ch.send_data(ssh_command)
+        ch.eof!
+        execution.status = :running
+        execution.save!
+      end
     end
   end
 
@@ -119,7 +122,7 @@ class RemoteTask::Drivers::Ssh < RemoteTask::Drivers::Base
   end
 
   def ssh
-    @ssh ||= Net::SSH.start(hostname, user, key_data: Rails.application.config.x.remote_task.driver.ssh.key_data)
+    @ssh ||= Net::SSH.start(hostname, user, key_data: Rails.application.config.x.remote_task.driver.ssh.key_data, timeout: execution.target.fetch('connect_timeout', 20).to_i)
   end
 
   def finalize_log!
