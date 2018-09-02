@@ -1,7 +1,8 @@
 = content_for(:content_header) { "Call a staff" }
 
-- if request.remote_ip.start_with?('10.18.')
-  - machine = Machine.where(ip_address: request.remote_ip).first
+- ip = request.env['HTTP_X_FORWARDED_FOR']&.split(/, */)&.first
+- if ip&.start_with?('10.18.')
+  - machine = Machine.where(ip_address: ip).first
   - desk = machine&.desk
   %p{style: 'font-size: 48px'}
     - if desk
