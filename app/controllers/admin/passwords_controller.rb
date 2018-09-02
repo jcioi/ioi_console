@@ -25,6 +25,7 @@ class Admin::PasswordsController < Admin::ApplicationController
   def generate
     @people = Person.all
     @people = @people.where(role: params[:role]) if params[:role].present?
+    @people = @people.where(login: params[:login]) if params[:login].present?
     @password_tier.generate!(people: @people, overwrite: params[:overwrite].present?)
     flash[:notice] = 'Password generated'
     redirect_to password_tier_passwords_path(@password_tier)
