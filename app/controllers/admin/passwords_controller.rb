@@ -60,6 +60,30 @@ class Admin::PasswordsController < Admin::ApplicationController
     return redirect_to(remote_task_executions_path(@remote_task), notice: 'Created remote task')
   end
 
+  def export_to_machines
+    ApplicationRecord.transaction do
+      @remote_task = RemoteTask.create!(
+        description: "User Export to machines from: #{@password_tier.description}",
+        kind: 'Adduser',
+        task_arguments: {'password_tier_id' => @password_tier.id},
+        status: :creating,
+      )
+      Machine.all.each do |machine|
+        next unless machine.ip_address
+        @remote_task.executions.create!(
+          status: :created,
+          target_kind: 'Ssh',
+          target: {hostname: machine.ip_address}
+        )
+      end
+      @remote_task.status = :created
+      @remote_task.save!
+    end
+    @remote_task.perform_later!
+
+    return redirect_to(remote_task_executions_path(@remote_task), notice: 'Created remote task')
+  end
+
   private
 
   def set_password_tier

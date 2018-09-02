@@ -18,6 +18,7 @@
 = link_to 'Print', print_password_tier_passwords_path(@password_tier, role: @role), method: :post, data: {confirm: "Are you sure to print #{@passwords.size} passwords for #{@password_tier.description}?"}, class: 'btn btn-default'
 - if @password_tier.contest&.taskable?
   = link_to 'Export to CMS', export_to_cms_password_tier_passwords_path(@password_tier, role: @role), method: :post, data: {confirm: "Are you sure to export participations to CMS?"}, class: 'btn btn-danger'
+= link_to 'Export to Machines', export_to_machines_password_tier_passwords_path(@password_tier, role: @role), method: :post, data: {confirm: "Are you sure to export participations to contestant machine?"}, class: 'btn btn-danger'
 
 %table.table.table-hover
   %thead

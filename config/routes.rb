@@ -37,6 +37,7 @@ Rails.application.routes.draw do
             post :generate
             post :print
             post :export_to_cms
+            post :export_to_machines
           end
         end
       end

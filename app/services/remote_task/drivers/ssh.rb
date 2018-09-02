@@ -152,6 +152,7 @@ class RemoteTask::Drivers::Ssh < RemoteTask::Drivers::Base
       end
       if has_newline
         (buf+lines).join.each_line do |line|
+          Rails.logger.info "[SSH_OUT/#{execution.task.id}_#{execution.id}]#{prefix} #{line}"
           logfile.puts "#{prefix} #{line}"
         end
         buf.replace([])
