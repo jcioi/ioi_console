@@ -76,6 +76,13 @@ Rails.application.configure do
   config.x.remote_task.driver.aws_ssm.scratch_s3_bucket = ENV.fetch('IOI_SSM_SCRATCH_S3_BUCKET', 'ioi18-misc-internal')
   config.x.remote_task.driver.aws_ssm.scratch_s3_prefix = ENV.fetch('IOI_SSM_SCRATCH_S3_PREFIX', 'console-dev/remote-task/ssm-scratch/')
 
+  config.x.remote_task.driver.ssh.user = ENV.fetch('IOI_SSH_USER', 'ioi')
+  config.x.remote_task.driver.ssh.key_data = [ENV['IOI_SSH_KEY_BASE64']&.unpack('m*')[0]].compact
+  config.x.remote_task.driver.ssh.log_s3_region = ENV.fetch('IOI_SSH_LOG_S3_REGION', 'ap-northeast-1')
+  config.x.remote_task.driver.ssh.log_s3_bucket = ENV.fetch('IOI_SSH_LOG_S3_BUCKET', 'ioi18-misc-internal')
+  config.x.remote_task.driver.ssh.log_s3_prefix = ENV.fetch('IOI_SSH_LOG_S3_PREFIX', 'console-dev/remote-task/ssh-log/')
+
+
   config.x.ipam.leases_s3_region = ENV.fetch('IOI_IPAM_LEASES_S3_REGION', 'ap-northeast-1')
   config.x.ipam.leases_s3_bucket = ENV.fetch('IOI_IPAM_LEASES_S3_BUCKET', 'ioi18-infra')
   config.x.ipam.leases_s3_key = ENV.fetch('IOI_IPAM_LEASES_S3_KEY', 'dhcp/leases/dhcp-001.4')
