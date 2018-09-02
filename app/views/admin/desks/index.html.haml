@@ -15,6 +15,9 @@
     %tr
       %th Floor
       %th Name
+      - if params[:switch]
+        %th Switch
+        %th Iface
       %th Machine
       %th Contestant
       %th{colspan: 2}
@@ -23,6 +26,9 @@
       %tr
         %td= desk.floor.name
         %td= desk.name
+        - if params[:switch]
+          %td= desk.switch_host
+          %td= desk.switch_interface
         %td
           #{desk.machine&.mac}
           - if desk.machine&.ip_address
