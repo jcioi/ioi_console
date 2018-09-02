@@ -12,7 +12,7 @@
   .form-group
     = form.label :floor, class: 'col-sm-2 control-label'
     .col-sm-10
-      = form.text_field :floor, class: 'form-control'
+      = form.text_field :floor, value: desk.floor ? desk.floor.name : nil, class: 'form-control'
 
   .form-group
     .col-sm-10.col-sm-offset-2
