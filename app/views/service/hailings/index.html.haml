@@ -1,18 +1,5 @@
 = content_for(:content_header) { "Call a staff" }
 
-- ip = request.env['HTTP_X_FORWARDED_FOR']&.split(/, */)&.first
-- if ip&.start_with?('10.18.')
-  - machine = Machine.where(ip_address: ip).first
-  - desk = machine&.desk
-  %p{style: 'font-size: 48px'}
-    - if desk
-      #{desk.name}
-    - else
-      DEBUG
-      #{request.remote_ip} +
-      #{request.env['HTTP_X_FORWARDED_FOR']}
-
-
 %p Choose the appropriate request type from the list below, then click "Send request" button.
 
 = form_with(model: @hailing, local: true, class: 'form-inline') do |form|

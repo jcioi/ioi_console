@@ -1,15 +1,3 @@
-- ip = request.env['HTTP_X_FORWARDED_FOR']&.split(/, */)&.first
-- if ip&.start_with?('10.18.')
-  - machine = Machine.where(ip_address: ip).first
-  - desk = machine&.desk
-  %p{style: 'font-size: 48px'}
-    - if desk
-      #{desk.name}
-    - else
-      DEBUG
-      #{request.remote_ip} +
-      #{request.env['HTTP_X_FORWARDED_FOR']}
-
 = form_tag sessions_path do
   .col-sm-4.col-sm-offset-4
     .form-group
@@ -18,7 +6,3 @@
       = password_field_tag :password, '', placeholder: 'Password', class: 'form-control'
     .form-group
       = submit_tag 'Log in', class: 'form-control btn btn-primary'
-
-
-#{request.remote_ip} +
-#{request.env['HTTP_X_FORWARDED_FOR']}

@@ -37,6 +37,12 @@
                 %div{style: 'width: 45px; height: 45px;'}
             .pull-left.info
               %p= current_user&.name
+              - ip = request.env['HTTP_X_FORWARDED_FOR']&.split(/, */)&.first
+              - if ip&.start_with?('10.18.')
+                - machine = Machine.where(ip_address: ip).first
+                - desk = machine&.desk
+                - if desk
+                  #{desk.name}
 
       .content-wrapper
         %section.content-header
