@@ -48,6 +48,8 @@ Rails.application.routes.draw do
       end
 
       resources :hailings, only: %i(index)
+
+      get '/metrics' => 'metrics#show'
     end
   end
 

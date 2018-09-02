@@ -15,6 +15,6 @@ class Service::HailingsController < Service::ApplicationController
   private
 
   def hailing_params
-    params.require(:hailing).permit(:request, :details)
+    params.require(:hailing).permit(:request_type)
   end
 end

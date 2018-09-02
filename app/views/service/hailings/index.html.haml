@@ -4,7 +4,7 @@
 
 = form_with(model: @hailing, local: true, class: 'form-inline') do |form|
   .form-group
-    = form.select :request, Hailing::KINDS, class: 'control-label'
+    = form.select :request_type, options_for_select(Hailing::TYPE_TEXTS.map{|k, txt| [txt, k] }), class: 'control-label'
   .form-group
     = form.submit 'Send request', class: 'btn btn-primary'
 
