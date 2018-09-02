@@ -66,6 +66,15 @@ class Admin::ContestsController < Admin::ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def contest_params
-      params.require(:contest).permit(:name, :cms_contest_id)
+      params.require(:contest).permit(:name, :cms_contest_id, :cms_remote_task_target, :cms_remote_task_driver).tap do |cp|
+        if cp[:cms_remote_task_target].present?
+          begin
+            cp[:cms_remote_task_target] = JSON.parse(cp[:cms_remote_task_target])
+          rescue JSON::ParserError, TypeError
+          end
+        end
+        p cp
+      end
+      
     end
 end

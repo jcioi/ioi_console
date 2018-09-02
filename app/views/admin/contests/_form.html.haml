@@ -15,5 +15,16 @@
       = form.text_field :cms_contest_id, class: 'form-control'
 
   .form-group
+    = form.label :cms_remote_task_driver, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = form.text_field :cms_remote_task_driver, class: 'form-control'
+
+  .form-group
+    = form.label :cms_remote_task_target, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = form.text_field :cms_remote_task_target, class: 'form-control'
+
+
+  .form-group
     .col-sm-10.col-sm-offset-2
       = form.submit(class: 'btn btn-primary')

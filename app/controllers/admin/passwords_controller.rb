@@ -38,6 +38,28 @@ class Admin::PasswordsController < Admin::ApplicationController
     redirect_to password_tier_passwords_path(@password_tier)
   end
 
+  def export_to_cms
+    unless @password_tier.contest&.taskable?
+      flash[:error] = "No CMS Remote Task Target present to the contest"
+      return redirect_to(password_tier_passwords_path(@password_tier))
+    end
+
+    ApplicationRecord.transaction do
+      @remote_task = RemoteTask.create!(
+        description: "Participation Export to CMS from: #{@password_tier.description}",
+        kind: 'CmsBatchLoadParticipation',
+        task_arguments: {'password_tier_id' => @password_tier.id},
+        status: :creating
+      )
+      @remote_task.executions.create!(status: :created, target_kind: @password_tier.contest.cms_remote_task_driver, target: @password_tier.contest.cms_remote_task_target)
+      @remote_task.status = :created
+      @remote_task.save!
+    end
+    @remote_task.perform_later!
+
+    return redirect_to(remote_task_executions_path(@remote_task), notice: 'Created remote task')
+  end
+
   private
 
   def set_password_tier

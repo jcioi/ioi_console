@@ -11,6 +11,18 @@ class Person < ApplicationRecord
     self.name = "#{first_name} #{last_name}" if (self.name.blank? || self.first_name_changed? || self.last_name_changed?) && first_name && last_name
   end
 
+  def first_and_last_name
+    if first_name.present? && last_name.present?
+      {first_name: first_name, last_name: last_name}
+    elsif display_name.present?
+      first_name, last_name = display_name.split(/\s+/, 2)
+      last_name ||= '.'
+      {first_name: first_name, last_name: last_name}
+    else
+      raise "Name invalid"
+    end
+  end
+
   def team=(value)
     team = case value
     when String

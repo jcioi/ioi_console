@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_02_020501) do
+ActiveRecord::Schema.define(version: 2018_09_02_031548) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 2018_09_02_020501) do
     t.string "cms_contest_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "cms_remote_task_target"
+    t.string "cms_remote_task_driver"
   end
 
   create_table "desk_assignment_histories", force: :cascade do |t|

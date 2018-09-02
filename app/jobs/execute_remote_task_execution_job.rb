@@ -16,12 +16,14 @@ class ExecuteRemoteTaskExecutionJob < ApplicationJob
           Rails.logger.error "Execution(#{execution.id}) was invalid for execution: #{e.inspect}"
           execution.update!(status: :failed)
           Raven.capture_exception(e)
+          raise if Rails.env.development?
           return
         end
       rescue => e
         execution.update!(status: :failed)
         Rails.logger.error "Execution(#{execution.id}) was invalid for execution: #{e.inspect}"
         Raven.capture_exception(e)
+        raise if Rails.env.development?
         return
       end
     end
