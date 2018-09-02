@@ -1,5 +1,16 @@
 = content_for(:content_header) { "Call a staff" }
 
+- if request.remote_ip.start_with?('10.18.6')
+  - machine = Machine.where(ip_address: request.remote_ip).first
+  - desk = machine&.desk
+  %p{style: 'font-size: 48px'}
+    - if desk
+      #{desk.name}
+    - else
+      ERROR
+      #{request.remote_ip}
+
+
 %p Choose the appropriate request type from the list below, then click "Send request" button.
 
 = form_with(model: @hailing, local: true, class: 'form-inline') do |form|
