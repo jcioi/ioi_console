@@ -34,7 +34,7 @@ class Admin::MachinesController < Admin::ApplicationController
     configs = Machine.includes(desk: [:contestant, :floor]).all.map do |m|
       next unless m.desk && m.ip_address
       {
-        targets: ["#{m.ip_address}:9090"],
+        targets: ["#{m.ip_address}:9100"],
         labels: {
           ioi_desk: m.desk ? "#{m.desk.floor.name}/#{m.desk.name}" : nil,
           ioi_contestant: m.desk.contestant ? m.desk.contestant.login : nil,
