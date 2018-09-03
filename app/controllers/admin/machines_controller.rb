@@ -3,7 +3,7 @@ require 'csv'
 class Admin::MachinesController < Admin::ApplicationController
   before_action :set_machine, only: [:show, :edit, :update, :destroy]
 
-  skip_before_action :require_staff, only: %i(lookup)
+  skip_before_action :require_staff, only: %i(lookup prometheus_config)
 
   # GET /machines
   # GET /machines.json
@@ -28,6 +28,22 @@ class Admin::MachinesController < Admin::ApplicationController
       contestant:  contestant,
       desk: desk,
     })
+  end
+
+  def prometheus_config
+    configs = Machine.includes(desk: [:contestant, :floor]).all.map do |m|
+      next unless m.desk && m.ip_address
+      {
+        targets: ["#{m.ip_address}:9090"],
+        labels: {
+          ioi_desk: m.desk ? "#{m.desk.floor.name}/#{m.desk.name}" : nil,
+          ioi_contestant: m.desk.contestant ? m.desk.contestant.login : nil,
+        },
+      }
+    end.compact
+    render(json: [
+      *configs,
+    ])
   end
 
   # GET /machines/new

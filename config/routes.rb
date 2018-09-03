@@ -27,6 +27,7 @@ Rails.application.routes.draw do
       resources :machines do
         collection do
           get :lookup
+          get :prometheus_config
           post :import
         end
       end
