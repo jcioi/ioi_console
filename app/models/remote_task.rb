@@ -1,7 +1,7 @@
 class RemoteTask < ApplicationRecord
   has_many :executions, class_name: 'RemoteTaskExecution', foreign_key: 'remote_task_id'
 
-  enum status: %i(creating created pending running cleaning cancelled finished)
+  enum status: %i(creating created pending running cleaning cancelled finished preparing)
 
   validates :kind, presence: true
   validates :task_arguments, presence: true

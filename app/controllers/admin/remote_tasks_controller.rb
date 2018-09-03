@@ -20,22 +20,7 @@ class Admin::RemoteTasksController < Admin::ApplicationController
       status: :creating,
     )
 
-    ApplicationRecord.transaction do
-      Desk.includes(:machine).all.each do |desk|
-        next unless desk.machine
-        machine = desk.machine
-        next unless machine.ip_address
-        @remote_task.executions.create!(
-          status: :created,
-          target_kind: 'Ssh',
-          target: {hostname: machine.ip_address}
-        )
-      end
-
-      @remote_task.status = :created
-      @remote_task.save!
-    end
-    @remote_task.perform_later!
+    CreateRemoteTaskExecutionsJob.perform_later(@remote_task, machines: true)
     redirect_to remote_task_executions_path(@remote_task), notice: 'RemoteTask was successfully created.'
   end
 
@@ -73,14 +58,8 @@ class Admin::RemoteTasksController < Admin::ApplicationController
         render :new
         return
       end
-      targets.each do |target|
-        kind = target.delete('kind')
-        @remote_task.executions.create!(status: :created, target_kind: kind, target: target)
-      end
-      @remote_task.status = :created
-      @remote_task.save!
+      CreateRemoteTaskExecutionsJob.perform_now(@remote_task, targets: targets)
     end
-    @remote_task.perform_later!
     redirect_to remote_task_executions_path(@remote_task), notice: 'RemoteTask was successfully created.'
   end
 
