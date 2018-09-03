@@ -1,5 +1,29 @@
 = content_for(:content_header) { "New Remote Task" }
 
+%h4 Script for machines
+
+= form_tag create_for_machines_remote_tasks_path, class: 'form-horizontal' do
+  .form-group
+    = label_tag :description, 'Description', class: 'col-sm-2 control-label'
+    .col-sm-10
+      = text_field_tag :description, '', class: 'form-control'
+
+  .form-group
+    = label_tag :script, 'Script', class: 'col-sm-2 control-label'
+    .col-sm-10
+      = text_area_tag :script, '', class: 'form-control', placeholder: 'bash script'
+
+  .form-group
+    = label_tag :scratch, 'Scratch', class: 'col-sm-2 control-label'
+    .col-sm-10
+      = text_area_tag :scratch, '',value: params.dig(:remote_task, :targets), class: 'form-control', placeholder: '(optional) Scratch File Content (which will be available at file $IOI_SCRATCH_PATH)'
+
+  .form-group
+    .col-sm-10.col-sm-offset-2
+      = submit_tag('Submit', class: 'btn btn-primary')
+
+%h4 Custom
+
 = form_with(model: @remote_task, local: true, class: 'form-horizontal') do |form|
   - if @remote_task.errors.empty?
     .form-group#error_explanation
@@ -29,3 +53,4 @@
   .form-group
     .col-sm-10.col-sm-offset-2
       = form.submit(class: 'btn btn-primary')
+

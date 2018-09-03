@@ -12,6 +12,33 @@ class Admin::RemoteTasksController < Admin::ApplicationController
     @remote_task = RemoteTask.new
   end
 
+  def create_for_machines
+    @remote_task = RemoteTask.create!(
+      description: params[:description],
+      kind: 'Script',
+      task_arguments: {script: params[:script], scratch: params[:scratch].presence},
+      status: :creating,
+    )
+
+    ApplicationRecord.transaction do
+      Desk.includes(:machine).all.each do |desk|
+        next unless desk.machine
+        machine = desk.machine
+        next unless machine.ip_address
+        @remote_task.executions.create!(
+          status: :created,
+          target_kind: 'Ssh',
+          target: {hostname: machine.ip_address}
+        )
+      end
+
+      @remote_task.status = :created
+      @remote_task.save!
+    end
+    @remote_task.perform_later!
+    redirect_to remote_task_executions_path(@remote_task), notice: 'RemoteTask was successfully created.'
+  end
+
   def create
     @remote_task = RemoteTask.new(remote_task_params.except(:targets, :task_arguments).merge(status: :creating))
 
