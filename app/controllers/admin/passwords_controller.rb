@@ -68,7 +68,7 @@ class Admin::PasswordsController < Admin::ApplicationController
         task_arguments: {'password_tier_id' => @password_tier.id},
         status: :creating,
       )
-      Desk.includes(:machine).all.each do |machine|
+      Desk.includes(:machine).all.each do |desk|
         next unless desk.machine
         machine = desk.machine
         next unless machine.ip_address
