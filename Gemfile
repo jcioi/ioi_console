@@ -26,6 +26,7 @@ gem 'sentry-raven'
 gem 'net-ssh'
 gem 'aws-sdk-s3'
 gem 'aws-sdk-ssm'
+gem 'aws-sdk-route53'
 
 gem 'shoryuken'
 gem 'aws-sdk-sqs'

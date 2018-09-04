@@ -7,11 +7,16 @@ class ImportDhcpLeasesJob < ApplicationJob
       next unless target_ids.include?(row['subnet_id'].to_i)
       leases[row.fetch('hwaddr')] = row.fetch('address')
     end
+    changed_machines = []
     ApplicationRecord.transaction do
       Machine.where(mac: leases.keys).each do |machine|
-        machine.update!(ip_address: leases.fetch(machine.mac))
+        machine.ip_address = leases.fetch(machine.mac)
+        changed_machines.push(machine) if machine.machine_id_changed?
+        machine.save!
       end
     end
+
+    UpdateMachineRoute53RecordsJob.perform_later(changed_machines)
   end
 
   private

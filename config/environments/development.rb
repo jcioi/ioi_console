@@ -91,6 +91,9 @@ Rails.application.configure do
   config.x.ipam.ssh_password = ENV['IOI_IPAM_SSH_PASSWORD']
   config.x.ipam.switch_hosts = ENV['IOI_IPAM_SWITCH_HOSTS']&.split(?,) || []
 
+  config.x.ipam.route53_hosted_zone = ENV.fetch('IOI_IPAM_ROUTE53_ZONE', 'Z1V30A252QIS0J')
+  config.x.ipam.route53_domain = ENV.fetch('IOI_IPAM_ROUTE53_DOMAIN', 'm.ioi18.net')
+
   config.x.prometheus_url = ENV.fetch('IOI_PROMETHEUS_URL', 'http://localhost:9090')
 
   config.x.ioi2018_day2_special_announce_team = 'ITA'
