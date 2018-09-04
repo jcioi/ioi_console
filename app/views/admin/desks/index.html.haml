@@ -39,7 +39,7 @@
         %td
           - if desk.machine&.ip_address
             - status = @machine_probe.statuses&.fetch(desk.machine.ip_address, nil)
-            - last = status.last_succeeded_at&.in_time_zone('Asia/Tokyo') || 'N/A'
+            - last = status&.last_succeeded_at&.in_time_zone('Asia/Tokyo') || 'N/A'
             - if status&.up
               %span.label.label-success{data: {toggle: 'tooltip', placement: "top"}, title: "at #{last}"} UP
             - elsif status.nil?
