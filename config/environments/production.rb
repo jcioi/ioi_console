@@ -121,7 +121,7 @@ Rails.application.configure do
 
   config.x.prometheus_url = ENV.fetch('IOI_PROMETHEUS_URL')
 
-  config.x.ioi2018_day2_special_announce_team = 'ITA'
+  config.x.ioi2018_day2_special_announce_team = []
 end
 
 
