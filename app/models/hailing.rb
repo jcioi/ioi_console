@@ -2,6 +2,10 @@ class Hailing < ApplicationRecord
   TYPE_TEXTS = {
     "restroom" => 'Restroom',
     "water" => 'Need an extra water bottle',
+    "food_banana" => 'Need a banana',
+    "food_chocolate" => 'Need a chocolate',
+    "food_jelly" => "Need a jelly drink",
+    "food_wafer" => "Need a wafer (halal)",
     "paper" => 'Need spare papers',
     "tech" => 'Technical problem',
     "handclar" => 'Handwritten clarification',
@@ -14,6 +18,10 @@ class Hailing < ApplicationRecord
     paper
     handclar
     water
+    food_banana
+    food_chocolate
+    food_jelly
+    food_wafer
   )
 
   def request
