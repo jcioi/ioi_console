@@ -6,7 +6,10 @@ import 'admin-lte/dist/css/skins/skin-red';
 
 import 'font-awesome/css/font-awesome';
 
-import 'bootstrap/dist/js/bootstrap';
+import jQuery from 'jquery';
+window.jQuery = jQuery;
+
+import 'bootstrap/dist/js/npm';
 import 'admin-lte/dist/js/adminlte';
 
 import Rails from 'rails-ujs';

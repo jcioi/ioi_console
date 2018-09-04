@@ -19,6 +19,8 @@
         %th Switch
         %th Iface
       %th Machine
+      %th Machine IP
+      %th Status
       %th Contestant
       %th{colspan: 2}
   %tbody
@@ -31,10 +33,25 @@
           %td= desk.switch_interface
         %td
           #{desk.machine&.mac}
+        %td
           - if desk.machine&.ip_address
-            (#{desk.machine.ip_address})
+            = desk.machine.ip_address
+        %td
+          - if desk.machine&.ip_address
+            - status = @machine_probe.statuses&.fetch(desk.machine.ip_address, nil)
+            - last = status.last_succeeded_at&.in_time_zone('Asia/Tokyo') || 'N/A'
+            - if status&.up
+              %span.label.label-success{data: {toggle: 'tooltip', placement: "top"}, title: "at #{last}"} UP
+            - elsif status.nil?
+              %span.label.label-warning N/A
+            - else
+              %span.label.label-danger{data: {toggle: 'tooltip', placement: "top"}, title: "Last UP was #{last}"} DOWN
+
         %td
           - if desk.contestant
             #{desk.contestant.login} (#{desk.contestant.display_name})
         %td= link_to 'Edit', edit_desk_path(desk)
         %td= link_to 'Destroy', desk, method: :delete, data: {confirm: 'Are you sure?'}
+
+%script
+  jQuery(function ($) { $('[data-toggle=tooltip]').tooltip() })

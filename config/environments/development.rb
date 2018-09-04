@@ -90,4 +90,6 @@ Rails.application.configure do
   config.x.ipam.ssh_user = ENV['IOI_IPAM_SSH_USER']
   config.x.ipam.ssh_password = ENV['IOI_IPAM_SSH_PASSWORD']
   config.x.ipam.switch_hosts = ENV['IOI_IPAM_SWITCH_HOSTS']&.split(?,) || []
+
+  config.x.prometheus_url = ENV.fetch('IOI_PROMETHEUS_URL', 'http://localhost:9090')
 end

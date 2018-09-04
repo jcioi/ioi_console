@@ -7,6 +7,7 @@ class Admin::DesksController < Admin::ApplicationController
   # GET /desks.json
   def index
     @desks = Desk.all.includes(:floor).includes(:contestant).includes(:machine).order(name: :asc)
+    @machine_probe = MachineProber.new.statuses
   end
 
   # GET /desks/new

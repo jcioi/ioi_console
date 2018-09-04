@@ -32,6 +32,8 @@ gem 'aws-sdk-sqs'
 
 gem 'net-ssh'
 
+gem 'prometheus-api-client', require: 'prometheus/api_client'
+
 # gem 'redis', '~> 4.0'
 
 # gem 'bootsnap', '>= 1.1.0', require: false
