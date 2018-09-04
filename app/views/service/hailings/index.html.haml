@@ -1,37 +1,54 @@
 = content_for(:content_header) { "Call a staff" }
 
-%p Choose the appropriate request type from the list below, then click "Send request" button.
+.row
+  .col-xs-12
+    .box
+      .box-header
+        %h3.box-title Request
 
-= form_with(model: @hailing, local: true, class: 'form-inline') do |form|
-  .form-group
-    = form.select :request_type, options_for_select(Hailing::TYPE_TEXTS.map{|k, txt| [txt, k] }), class: 'control-label'
-  .form-group
-    = form.submit 'Send request', class: 'btn btn-primary'
+      .box-body
+        %p Choose the appropriate request type from the list below, then click "Send request" button.
 
-%h4 Your special needs information
+        = form_with(model: @hailing, local: true, class: 'form-inline') do |form|
+          .form-group
+            = form.select :request_type, options_for_select(Hailing::TYPE_TEXTS.map{|k, txt| [txt, k] }.reject {|_txt,k| Hailing::HIDDEN_TYPES.include?(k) }), class: 'control-label'
+          .form-group
+            = form.submit 'Send request', class: 'btn btn-primary'
 
 %p Special Needs data explains every contestants' special needs (e.g. disabilities). This is also notified to the staff when you call a staff.
 
-- if current_user.special_requirement_note.present?
-  %p We understand you have the following special needs:
-  %pre= current_user.special_requirement_note
+.row
+  .col-xs-12
+    .box
+      .box-header
+        %h3.box-title Special Needs Information
+      .box-body
+        %p Special Needs data explains every contestants' special needs (e.g. disabilities). This is also notified to the staff when you call staff.
 
-  %p If you think this is incorrect, please correct using the button below.
+        - if current_user.special_requirement_note.present?
+          %p We understand you have the following special needs:
+          %pre= current_user.special_requirement_note
 
-- else
-  %p We have not received any special needs information for you. Submit from the button below if you have any.
+          %p If you think this is incorrect, please correct using the button below.
 
-= link_to 'Edit Special Needs', edit_special_requirement_note_path, class: 'btn btn-default'
+        - else
+          %p We have not received any special needs information for you. Submit from the button below if you have any.
 
-%h3 Your recent requests
+        = link_to 'Edit Special Needs', edit_special_requirement_note_path, class: 'btn btn-default'
 
-%table.table.table-hover
-  %thead
-    %tr
-      %th Request
-      %th Time
-  %tbody
-    - @hailings.each do |hailing|
-      %tr
-        %td= hailing.request
-        %td= hailing.created_at.in_time_zone('Asia/Tokyo') # XXX:
+.row
+  .col-xs-12
+    .box
+      .box-header
+        %h3.box-title Your recent requests
+      .box-body
+        %table.table.table-hover
+          %thead
+            %tr
+              %th Request
+              %th Time
+          %tbody
+            - @hailings.each do |hailing|
+              %tr
+                %td= hailing.request
+                %td= hailing.created_at.in_time_zone('Asia/Tokyo') # XXX:
