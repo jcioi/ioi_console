@@ -11,7 +11,7 @@ class ImportDhcpLeasesJob < ApplicationJob
     ApplicationRecord.transaction do
       Machine.where(mac: leases.keys).each do |machine|
         machine.ip_address = leases.fetch(machine.mac)
-        changed_machines.push(machine) if machine.machine_id_changed?
+        changed_machines.push(machine) if machine.ip_address_changed?
         machine.save!
       end
     end
