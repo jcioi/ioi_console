@@ -10,7 +10,7 @@ class MachineProber
 
   def statuses
     query = prom.query_range(
-      query: "probe_success{job=\"#{@ping_job}\"} == 1",
+      query: "probe_success{job=\"#{@ping_job}\"}",
       end: (Time.now).to_i,
       start: (Time.now - 60).to_i,
       step: '5s'
