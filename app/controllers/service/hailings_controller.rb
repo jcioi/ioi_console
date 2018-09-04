@@ -2,6 +2,7 @@ class Service::HailingsController < Service::ApplicationController
   def index
     @hailing = Hailing.new
     @hailings = Hailing.where(contestant: current_user).order(created_at: :desc).limit(20)
+    @special_hailing = Hailing.new(request_type: :get_out)
   end
 
   def create

@@ -10,7 +10,10 @@ class Hailing < ApplicationRecord
     "tech" => 'Technical problem',
     "handclar" => 'Handwritten clarification',
     "other" => 'Other',
+    "get_out" => "Need to exit the contest venue",
   }
+  HIDDEN_TYPES = %w(get_out)
+
   enum request_type: %i(
     other
     tech
@@ -22,6 +25,7 @@ class Hailing < ApplicationRecord
     food_chocolate
     food_jelly
     food_wafer
+    get_out
   )
 
   def request

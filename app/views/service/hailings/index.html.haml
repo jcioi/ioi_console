@@ -1,7 +1,7 @@
 = content_for(:content_header) { "Call a staff" }
 
 .row
-  .col-xs-12
+  %div{class: current_user.team.ioi2018_day2_special_announce_team? ? 'col-xs-6' : 'col-xs-12'}
     .box
       .box-header
         %h3.box-title Request
@@ -15,7 +15,21 @@
           .form-group
             = form.submit 'Send request', class: 'btn btn-primary'
 
-%p Special Needs data explains every contestants' special needs (e.g. disabilities). This is also notified to the staff when you call a staff.
+  - if current_user.team.ioi2018_day2_special_announce_team?
+    .col-xs-6
+      .box
+        .box-header
+          %h3.box-title (To Italy Team) Exit the contest venue early
+        .box-body
+          %p
+            We recognize that Italy team has to return early, even during the competition.
+            To go out from the contest venue, click the button below. Staff will guide you to the exit.
+          %p
+            = form_with(model: @special_hailing, local: true, class: 'form-inline') do |form|
+              = form.hidden_field :request_type
+              = form.submit 'Request staff to exit', class: 'btn btn-danger', data: {confirm: 'Are you really sure? You CANNOT back here once you go out.'}
+            %br
+            %b Note that you CANNOT back to the contest venue once you left the contest venue.
 
 .row
   .col-xs-12

@@ -92,4 +92,6 @@ Rails.application.configure do
   config.x.ipam.switch_hosts = ENV['IOI_IPAM_SWITCH_HOSTS']&.split(?,) || []
 
   config.x.prometheus_url = ENV.fetch('IOI_PROMETHEUS_URL', 'http://localhost:9090')
+
+  config.x.ioi2018_day2_special_announce_team = 'ITA'
 end
