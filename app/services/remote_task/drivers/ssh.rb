@@ -108,7 +108,7 @@ class RemoteTask::Drivers::Ssh < RemoteTask::Drivers::Base
     puts "$ #{cmd}"
     cha = ssh.open_channel do |ch|
       ch.exec(cmd) do |c, success|
-        raise ExecutionFailed "execution failed on #{hostname}: #{cmd.inspect}" if !success && error
+        raise ExecutionFailed, "execution failed on #{hostname}: #{cmd.inspect}" if !success && error
 
         c.on_request("exit-status") { |_c, data| exitstatus = data.read_long }
         c.on_request("exit-signal") { |_c, data| exitsignal = data.read_long }
@@ -117,7 +117,7 @@ class RemoteTask::Drivers::Ssh < RemoteTask::Drivers::Base
       end
     end
     cha.wait
-    raise ExecutionFailed "execution failed on #{hostname} (status=#{exitstatus.inspect}, signal=#{exitsignal.inspect}): #{cmd.inspect}" if (exitstatus != 0 || exitsignal) && error
+    raise ExecutionFailed, "execution failed on #{hostname} (status=#{exitstatus.inspect}, signal=#{exitsignal.inspect}): #{cmd.inspect}" if (exitstatus != 0 || exitsignal) && error
     [exitstatus, exitsignal]
   end
 
