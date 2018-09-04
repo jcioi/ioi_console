@@ -22,6 +22,7 @@ class CreateRemoteTaskExecutionsJob < ApplicationJob
           remote_task.executions.create!(
             status: :created,
             target_kind: 'Ssh',
+            description: "SSH: #{machine.ip_address} #{desk.name} #{desk.contestant&.login}",
             target: {hostname: machine.ip_address}
           )
         end
